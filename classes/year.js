@@ -24,7 +24,7 @@ class Year extends Component{
   }
 
     render(){
-  return <View>{this.state.dayList}</View>;
+  return null;
     }
 }
 export default Year;
