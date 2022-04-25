@@ -3,6 +3,7 @@ import styles from './styles';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from './components/home';
+import 'react-native-gesture-handler';
 
 
 const Stack = createStackNavigator();
@@ -48,3 +49,4 @@ function Title() {
 //----- Dependencies ------
 // npm install @react-navigation/native
 // npm install @react-navigation/stack
+// expo install react-native-gesture-handler

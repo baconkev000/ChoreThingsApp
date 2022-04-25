@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center',
       },
@@ -18,6 +18,30 @@ const styles = StyleSheet.create({
       },
       Hidden: {
         display: "none",
+      },
+      DateContainer: {
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#EEEEEE",
+        width: "90%",
+        marginLeft: "5%",
+        justifyContent: "space-between",
+        alignItems: "center",
+      },
+      DateTextContainer:{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
+      },
+      DateText:{
+        fontSize: 20,
+      },
+      ToTodayText:{
+
+      },
+      TouchButton:{
+        padding:20,
       },
 
 })

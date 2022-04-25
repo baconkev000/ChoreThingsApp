@@ -1,14 +1,20 @@
 import { Component } from "react";
-import { View } from "react-native";
+import { View} from "react-native";
 
 class Day extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    var d = new Date();
     this.state = {
-        id: null,
-        date: null,
-        choreList: [],
+        choreList: props.choreList,
+        date: props.date,
+        id: props.id,
     };
+  }
+  componentDidMount(){
+    this.getDate(this.props.iterator);
+    this.propsdate = this.state.date;
+
   }
 
   addChore = (chore) => {
@@ -26,7 +32,10 @@ class Day extends Component{
   
 
     render(){
-  return <View>{this.state.choreList}</View>;
+  return <View>
+    
+    {this.state.choreList}
+    </View>;
     }
 }
 export default Day;
