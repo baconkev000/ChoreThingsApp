@@ -53,28 +53,25 @@ class Year extends Component{
 
   }
 
-  removeEmptyDay = () =>{
-    if(this.state.dayShowing.props.choreList.length == 0){ // if the day showing has no chores
-      for(var i = 0; i < this.state.dayList.length; i++){
-        if(this.state.dayList[i].props.id == this.state.dayShowing.props.id){ // if this is the day showing
-          var tempList = this.state.dayList;
-          tempList.splice(i,1);
-          this.setState({
-            dayList: tempList,
-          })
-          break;
+  removeEmptyDay = (oldDay) =>{ // removes any day from daylist that does not contain chores
+      if(oldDay.props.choreList.length == 0){ // if the day old day has no chores
+        for(var i = 0; i < this.state.dayList.length; i++){ // find the old day in DayList
+          if(this.state.dayList[i].props.id == oldDay.props.id){ // if this is the day showing
+            var tempList = this.state.dayList;
+            tempList.splice(i,1);
+            this.setState({
+              dayList: tempList,
+            })
+            break;
+          }
         }
       }
-    }
-    console.log(this.state.dayList.length, "-------------------------------");
-    // this.state.dayList.forEach(el => {
-    //   console.log(el.props.id);
-    // });
   }
 
-  dateIterator(offset){
+  dateIterator(offset){ // changes the date and the day object that is showing
     var newDate = this.formatDate(offset);
     var newDay = <Day id={newDate[0]} date={newDate[1]} choreList={[]} key={newDate[0]}/>;
+    var oldDay = this.state.dayShowing;
     this.addDay(newDay);
 
     if(newDate[0] == this.state.todayId){ // if we are navigation to today then hide today link
@@ -88,7 +85,8 @@ class Year extends Component{
         offset: this.state.offset + offset,
       })
     }
-    this.removeEmptyDay();
+    this.removeEmptyDay(oldDay);
+
   }
   
   formatDate(offset){
@@ -108,7 +106,7 @@ class Year extends Component{
 
 
     render(){
-  return <View> 
+  return <View style={styles.YearContainer}> 
     <View style={styles.DateContainer}>
       <TouchableWithoutFeedback style={styles.TouchButton} onPress={() => this.dateIterator(-1)}><AntDesign name="caretleft" size={24} color="black" /></TouchableWithoutFeedback>
         <View style={styles.DateTextContainer}>
@@ -120,6 +118,9 @@ class Year extends Component{
     <TouchableWithoutFeedback onPress={() => this.dateIterator(-this.state.offset)}>
       <Text style={this.state.todayLinkStyle}>Back to today</Text>
     </TouchableWithoutFeedback>
+    </View>
+    <View>
+      {this.state.dayShowing}
     </View>
 </View>;
     }

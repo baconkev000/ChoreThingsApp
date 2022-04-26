@@ -1,10 +1,10 @@
 import { Component } from "react";
 import { View} from "react-native";
+import NoChores from "../components/noChores";
 
 class Day extends Component{
   constructor(props) {
     super(props);
-    var d = new Date();
     this.state = {
         choreList: props.choreList,
         date: props.date,
@@ -12,9 +12,6 @@ class Day extends Component{
     };
   }
   componentDidMount(){
-    this.getDate(this.props.iterator);
-    this.propsdate = this.state.date;
-
   }
 
   addChore = (chore) => {
@@ -32,10 +29,13 @@ class Day extends Component{
   
 
     render(){
-  return <View>
-    
-    {this.state.choreList}
-    </View>;
-    }
+      if(this.state.choreList.length == 0){
+        return <NoChores today={this}/>
+      }else{
+        return <View>
+            {this.state.choreList}
+          </View>;
+          }
+      }
 }
 export default Day;

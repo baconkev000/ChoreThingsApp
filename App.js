@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import styles from './styles';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from './components/home';
 import 'react-native-gesture-handler';
-
+import ChoresOptionsPage from './components/choresOptionsPage';
+import ChoreLibrary from './components/choreLibrary';
+import CustomChore from './components/customChorePage';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,45 @@ export default function App() {
         component={Home}
         options={{
           headerTitle: (props) => <Title></Title>,
+        }}
+      />
+      <Stack.Screen
+        name="ChoresOptionsPage"
+        component={ChoresOptionsPage}
+        options={{
+          headerBackTitle: "Cancel",
+          headerTitle: "Add Chores",
+          headerBackTitle: "Cancel",
+        }}
+      />
+      <Stack.Screen
+        name="ChoreLibrary"
+        component={ChoreLibrary}
+        options={{
+          headerTitle: "Chore Library",
+          headerBackTitle: "Cancel",
+          headerRight: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Save"
+              color="#fff"
+            />
+          ),
+        }}
+      />
+            <Stack.Screen
+        name="CustomChore"
+        component={CustomChore}
+        options={{
+          headerTitle: "Custom Chore",
+          headerBackTitle: "Cancel",
+          headerRight: () => (
+            <Button
+              onPress={() => alert('This is a button!')}
+              title="Save"
+              color="#fff"
+            />
+          ),
         }}
       />
 
