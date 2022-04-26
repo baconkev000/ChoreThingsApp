@@ -130,6 +130,10 @@ const styles = StyleSheet.create({
       NameText:{
         fontSize: 20,
         paddingBottom: 5,
+      },
+      TextSize:{
+        fontSize: 20,
+
       }
 })
 

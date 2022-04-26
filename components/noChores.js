@@ -1,6 +1,6 @@
 
 import React, { Component} from "react";
-import {View, Text } from "react-native";
+import {View, Text, TouchableWithoutFeedback } from "react-native";
 import styles from "../styles";
 import { AntDesign } from '@expo/vector-icons';
 import AddChoresButton from "./btns/addChoresButton";

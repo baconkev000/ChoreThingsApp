@@ -8,19 +8,27 @@ class CustomChore extends Component{
   constructor(props) {
     super(props);
     this.state = {
+        choreList: [],
         choreName: null,
         today: props.day,
+        placeholder: "Add a chore name"
     };
   }
+
+
   
   finishAddName(props){
+    var tempList = choreList;
+    tempList.push(props.nativeEvent.text);
         this.setState({
+          choreList: tempList,
           choreName: props.nativeEvent.text,
           addButtonContainerStyle: styles.AddInput,
           inputBoxStyle: styles.Hidden,
           inputText: null,
+          placeholder: "Edit name",
       })
-      this.state.today.addChore(props.nativeEvent.text);
+      //this.state.today.addChore(props.nativeEvent.text);
     }
 
     updateText(value){
@@ -33,7 +41,6 @@ class CustomChore extends Component{
   return (
     <TouchableWithoutFeedback >
       <View style={styles.ChoreContainer}>
-          <Text style={styles.NameText}>{this.state.choreName}</Text>
           <TextInput 
           value = {this.state.inputText}
           onChangeText = {(value) => this.updateText(value)}
@@ -42,8 +49,9 @@ class CustomChore extends Component{
           }) =>
             this.finishAddName({ nativeEvent: { text } })}
           style={styles.TextInput} 
-          placeholder="Edit Name"></TextInput>
+          placeholder={this.state.placeholder}></TextInput>
       </View>
+      <Text style={styles.NameText}>{this.state.choreName}</Text>
       </TouchableWithoutFeedback>
     
   );

@@ -12,12 +12,12 @@ function ChoresOptionsButtons(){
       <View>
       <TouchableWithoutFeedback onPress={() => navigation.navigate("ChoreLibrary")}>
         <View style={styles.OptionTile}>
-        <Text>Chore Library </Text><AntDesign name="right" size={24} color="black" />
+        <Text style={styles.TextSize}>Chore Library </Text><AntDesign name="right" size={24} color="black" />
         </View>
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={() => navigation.navigate("CustomChore")}>
         <View style={styles.OptionTile}>
-        <Text>Custom Chore</Text><AntDesign name="right" size={24} color="black" />
+        <Text style={styles.TextSize}>Custom Chore</Text><AntDesign name="right" size={24} color="black" />
         </View>
       </TouchableWithoutFeedback>
     </View>

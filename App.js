@@ -35,41 +35,62 @@ export default function App() {
       <Stack.Screen
         name="ChoresOptionsPage"
         component={ChoresOptionsPage}
-        options={{
+        options={({navigation}) => ({
           headerBackTitle: "Cancel",
           headerTitle: "Add Chores",
-          headerBackTitle: "Cancel",
-        }}
-      />
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.navigate({name: 'Home'})}
+              title="Cancel"
+              color="#fff"
+            />
+          ),
+          })}
+          />
       <Stack.Screen
         name="ChoreLibrary"
         component={ChoreLibrary}
-        options={{
+        options={({navigation}) => ({
           headerTitle: "Chore Library",
-          headerBackTitle: "Cancel",
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.navigate({name: 'ChoresOptionsPage'})}
+              title="Cancel"
+              color="#fff"
+            />
+          ),
           headerRight: () => (
             <Button
-              onPress={() => alert('This is a button!')}
+              onPress={() => navigation.navigate({name: 'Home'})}
               title="Save"
               color="#fff"
             />
           ),
-        }}
+          
+          })}
       />
             <Stack.Screen
         name="CustomChore"
         component={CustomChore}
-        options={{
-          headerTitle: "Custom Chore",
+        options={({navigation}) => ({
+          headerTitle: "Custom Chores",
           headerBackTitle: "Cancel",
+          
+          headerLeft: () => (
+            <Button
+              onPress={() => navigation.navigate({name: 'Home'})}
+              title="Cancel"
+              color="#fff"
+            />
+          ),
           headerRight: () => (
             <Button
-              onPress={() => alert('This is a button!')}
+              onPress={() => navigation.navigate({name: 'Home'})}
               title="Save"
               color="#fff"
             />
           ),
-        }}
+        })}
       />
 
     </Stack.Navigator>
@@ -91,3 +112,4 @@ function Title() {
 // npm install @react-navigation/native
 // npm install @react-navigation/stack
 // expo install react-native-gesture-handler
+// npm install --save @react-native-firebase/app
