@@ -7,6 +7,7 @@ class Chore extends Component{
     super(props);
     this.state = {
         name: props.choreName,
+        dayId: props.dayId,
     };
   }
 

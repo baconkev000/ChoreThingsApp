@@ -16,7 +16,6 @@ class Day extends Component{
   }
 
   addChore = (chore) => {
-    console.log(chore)
     var tempList = this.state.choreList;
     tempList.push(chore);
 

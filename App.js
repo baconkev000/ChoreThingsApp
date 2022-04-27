@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import ChoresOptionsPage from './components/choresOptionsPage';
 import ChoreLibrary from './components/choreLibrary';
 import CustomChore from './components/customChorePage';
+import sqlQueries from './db/db';
 
 const Stack = createStackNavigator();
 
@@ -75,18 +76,10 @@ export default function App() {
         options={({navigation}) => ({
           headerTitle: "Custom Chores",
           headerBackTitle: "Cancel",
-          
           headerLeft: () => (
             <Button
-              onPress={() => navigation.navigate({name: 'Home'})}
+              onPress={() => sqlQueries.clearAll()}
               title="Cancel"
-              color="#fff"
-            />
-          ),
-          headerRight: () => (
-            <Button
-              onPress={() => navigation.navigate({name: 'Home'})}
-              title="Save"
               color="#fff"
             />
           ),

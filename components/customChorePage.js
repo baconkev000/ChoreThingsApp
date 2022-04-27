@@ -3,6 +3,8 @@ import React, { Component} from "react";
 import {View, TextInput, TouchableWithoutFeedback, Text, Button } from "react-native";
 import styles from "../styles";
 import Chore from "../classes/chore";
+import sqlQueries from "../db/db";
+
 class CustomChore extends Component{
   constructor(props) {
     super(props);
@@ -18,7 +20,7 @@ class CustomChore extends Component{
     this.props.navigation.setOptions({
       headerRight: () => (
         <Button
-          onPress={() => navigation.navigate({name: 'Home'})}
+          onPress={() => sqlQueries.clearAll()}
           title="Save"
           color="#fff"
         />
@@ -44,7 +46,8 @@ class CustomChore extends Component{
           inputText: null,
           placeholder: "Edit name",
       })
-      this.state.dayState.addChore(<Chore choreName={props.nativeEvent.text} key={props.nativeEvent.text}/>);
+      this.state.dayState.addChore(<Chore choreName={props.nativeEvent.text} dayId={this.state.dayState.dayId} key={props.nativeEvent.text}/>);
+      sqlQueries.addDay(this.state.dayState.state.id, this.state.dayState.state.date);
     }
 
     updateText(value){
