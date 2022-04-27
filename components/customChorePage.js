@@ -1,9 +1,8 @@
 
 import React, { Component} from "react";
-import {View, TextInput, TouchableWithoutFeedback, Text } from "react-native";
+import {View, TextInput, TouchableWithoutFeedback, Text, Button } from "react-native";
 import styles from "../styles";
-
-
+import Chore from "../classes/chore";
 class CustomChore extends Component{
   constructor(props) {
     super(props);
@@ -11,14 +10,31 @@ class CustomChore extends Component{
         choreList: [],
         choreName: null,
         today: props.day,
-        placeholder: "Add a chore name"
+        placeholder: "Add a chore name",
+        dayState: this.props.route.params.dayState.params,
     };
   }
-
-
+  componentDidMount(){
+    this.props.navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => navigation.navigate({name: 'Home'})}
+          title="Save"
+          color="#fff"
+        />
+      ),
+    })
+  }
+  nextPageWithProps(){
+    /*this.props.nav.navigation.setOptions({
+        headerRight: () => (
+          <Button onPress={() => setCount(c => c + 1)} title="Update count" />
+        ),
+      });*/
+  }
   
   finishAddName(props){
-    var tempList = choreList;
+    var tempList = this.state.choreList;
     tempList.push(props.nativeEvent.text);
         this.setState({
           choreList: tempList,
@@ -28,7 +44,7 @@ class CustomChore extends Component{
           inputText: null,
           placeholder: "Edit name",
       })
-      //this.state.today.addChore(props.nativeEvent.text);
+      this.state.dayState.addChore(<Chore choreName={props.nativeEvent.text} key={props.nativeEvent.text}/>);
     }
 
     updateText(value){
@@ -39,6 +55,7 @@ class CustomChore extends Component{
 
     render(){
   return (
+    <View>
     <TouchableWithoutFeedback >
       <View style={styles.ChoreContainer}>
           <TextInput 
@@ -51,9 +68,10 @@ class CustomChore extends Component{
           style={styles.TextInput} 
           placeholder={this.state.placeholder}></TextInput>
       </View>
-      <Text style={styles.NameText}>{this.state.choreName}</Text>
       </TouchableWithoutFeedback>
-    
+      <Text style={styles.NameText}>{this.state.choreName}</Text>
+
+    </View>
   );
     }
 }

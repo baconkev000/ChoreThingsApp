@@ -134,7 +134,22 @@ const styles = StyleSheet.create({
       TextSize:{
         fontSize: 20,
 
-      }
+      },
+
+      //----------------------- Chore --------------------------\
+      ChoreNameContainer:{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: primaryColor,
+        width: "90%",
+        marginTop: "5%",
+        justifyContent: "space-between",
+        alignItems: "center",
+      },
+      ChoreNameText:{
+        fontSize: 20,
+        padding: 20,
+      },
 })
 
 

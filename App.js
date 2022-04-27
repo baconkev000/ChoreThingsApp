@@ -107,9 +107,12 @@ function Title() {
   );
 }
 
-
 //----- Dependencies ------
 // npm install @react-navigation/native
 // npm install @react-navigation/stack
 // expo install react-native-gesture-handler
 // npm install --save @react-native-firebase/app
+// expo install @react-navigation/native @react-navigation/stack firebase dotenv react-native-elements expo-constants
+// npm install @reduxjs/toolkit react-redux
+// npm install react-native-sqlite-2 --save
+// expo install expo-sqlite

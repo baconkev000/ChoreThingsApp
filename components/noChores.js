@@ -1,10 +1,8 @@
-
 import React, { Component} from "react";
-import {View, Text, TouchableWithoutFeedback } from "react-native";
+import {View, Text } from "react-native";
 import styles from "../styles";
 import { AntDesign } from '@expo/vector-icons';
-import AddChoresButton from "./btns/addChoresButton";
-
+import AddChoresBtn from "./addChoresBtn";
 
 
 class NoChores extends Component{
@@ -23,10 +21,11 @@ class NoChores extends Component{
       <View style={styles.NoChoresTextContainer}>
         <Text style={styles.NoChoresText}>You have no chores!</Text>
       </View>
-      <AddChoresButton today={this.state.today}/>
+      <AddChoresBtn nav={this.props.nav} dayState={this.props.dayState}/>
     </View>
     
   );
     }
 }
+
 export default NoChores;

@@ -1,11 +1,12 @@
 import { Component } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
+import styles from "../styles";
 
 class Chore extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-        name: null,
+        name: props.choreName,
     };
   }
 
@@ -16,7 +17,7 @@ class Chore extends Component{
   }
 
     render(){
-  return <Text>{this.state.name}</Text>;
+  return <View style={styles.ChoreNameContainer}><Text style={styles.ChoreNameText}>{this.state.name}</Text></View>;
     }
 }
 export default Chore;

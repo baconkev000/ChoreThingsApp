@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { View} from "react-native";
 import NoChores from "../components/noChores";
+import AddChoresBtn from "../components/addChoresBtn";
 
 class Day extends Component{
   constructor(props) {
@@ -15,6 +16,7 @@ class Day extends Component{
   }
 
   addChore = (chore) => {
+    console.log(chore)
     var tempList = this.state.choreList;
     tempList.push(chore);
 
@@ -30,10 +32,11 @@ class Day extends Component{
 
     render(){
       if(this.state.choreList.length == 0){
-        return <NoChores today={this}/>
+        return <NoChores today={this} nav={this.props.nav} dayState={this} />
       }else{
         return <View>
             {this.state.choreList}
+            <AddChoresBtn nav={this.props.nav} />
           </View>;
           }
       }

@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, TouchableOpacity, FlatList } from 'react-native';
 import React, { Component } from "react";
 import Year from "../classes/year";
 import styles from "../styles";
@@ -7,12 +7,11 @@ import styles from "../styles";
 
 
 class Home extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       
     };
-    
   }
 
     render(){
@@ -20,7 +19,8 @@ class Home extends Component{
     <SafeAreaView styles={styles.Container}>
     <StatusBar style="auto" />
     <View>
-    <Year />
+    <Year nav={this.props}/>
+
     </View>
   </SafeAreaView>
     

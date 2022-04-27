@@ -8,8 +8,8 @@ import Day from "./day";
 var month= ["January","February","March","April","May","June","July",
             "August","September","October","November","December"];
 class Year extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     var date = this.formatDate(0);
     this.state = {
         id: [],
@@ -17,7 +17,7 @@ class Year extends Component{
         dayNum: new Date().getDate(),
         month: new Date().getMonth(),
         year: new Date().getFullYear(),
-        dayShowing:<Day id={date[0]} date={date[1]} choreList={[]} key={date[0]}/>,
+        dayShowing:<Day id={date[0]} date={date[1]} choreList={[]} nav={this.props.nav} key={date[0]}/>,
         todayId: date[0],
         todayLinkStyle: styles.Hidden,
         offset: 0,
@@ -70,7 +70,7 @@ class Year extends Component{
 
   dateIterator(offset){ // changes the date and the day object that is showing
     var newDate = this.formatDate(offset);
-    var newDay = <Day id={newDate[0]} date={newDate[1]} choreList={[]} key={newDate[0]}/>;
+    var newDay = <Day id={newDate[0]} date={newDate[1]} choreList={[]} nav={this.props.nav} key={newDate[0]}/>;
     var oldDay = this.state.dayShowing;
     this.addDay(newDay);
 
