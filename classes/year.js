@@ -4,6 +4,7 @@ import styles from "../styles";
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Day from "./day";
+import sqlQueries from "../db/db";
 
 var month= ["January","February","March","April","May","June","July",
             "August","September","October","November","December"];
@@ -31,6 +32,8 @@ class Year extends Component{
       this.setState({
         dayList: tempList,
       })
+
+      sqlQueries.createTable();
   }
   
   addDay = (day) => {
