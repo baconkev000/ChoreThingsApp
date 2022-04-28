@@ -1,13 +1,13 @@
 import * as SQLite from "expo-sqlite";
 import { Component } from "react";
 
-const db = SQLite.openDatabase('test.db', '1.0', '', 1);
+const db = SQLite.openDatabase('chores.db', '1.0', '', 1);
 
 class Queries extends Component{
-  createDaysTable(){
+  createTables(){
     db.transaction(function (txn) {
       txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS days (id VARCHAR(30), date VARCHAR(30))`,
+        `CREATE TABLE IF NOT EXISTS days (id VARCHAR(20) UNIQUE, day VARCHAR(20) UNIQUE)`,
         [],
         () => {
           console.log("table created successfully");
@@ -19,7 +19,7 @@ class Queries extends Component{
     });
     db.transaction(function (txn) {
       txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS chores (id VARCHAR(20), day VARCHAR(20))`,
+        `CREATE TABLE IF NOT EXISTS chores (id VARCHAR(20), name VARCHAR UNIQUE)`,
         [],
         () => {
           console.log("table created successfully");
@@ -31,36 +31,82 @@ class Queries extends Component{
     });
   }
 
-  addDay(id, date){
+  addDay(id, date){ // add the day
+    //IF NOT EXISTS SELECT id FROM days WHERE days = "${id}
     db.transaction(function (txn) {
       txn.executeSql(
         `INSERT INTO days
         VALUES (?,?)`,
         [id, date],
         (txn, results) => {
+          console.log("day added successfully", results);
+        },
+        error => {
+          console.log("error on adding day" + error.message)
+        }
+      )
+    });
+    console.log(this.getDays());
+
+  }
+
+  addChores(chores){
+    var vals = "";
+    var tempList = [];
+    var i = 0;
+    chores.forEach(chore => {
+      if(i == chores.length-1){
+        vals += " (?,?)";
+      }else{
+        vals += " (?,?),";
+
+      }
+      tempList.push(chore[0], chore[1]);
+      i++
+    });
+    console.log("---------", tempList, vals)
+    vals += " (?,?)";
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `INSERT INTO chores (id, name)
+        VALUES ${vals}`,
+        tempList,
+        (txn, results) => {
+          console.log("day added successfully", results);
+        },
+        error => {
+          console.log("error on adding chores" + error.message);
+        }
+      )
+    });
+
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `SELECT * FROM chores`,
+        [],
+        (txn, results) => {
           console.log("day added successfully");
         },
         error => {
-          console.log("error on adding day" + error.message)
+          console.log("error selection chores" + error.message);
         }
       )
     });
+  }
+  getDays(){
     db.transaction(function (txn) {
       txn.executeSql(
-        `SELECT id FROM days`,
+        `SELECt * FROM days`,
         [],
         (txn, results) => {
-          console.log("stuff passed in", id, date);
-          console.log("day added successfully", results);
-          
+          console.log("day table cleared", results);
+          return results;
         },
         error => {
-          console.log("error on adding day" + error.message)
+          console.log("error on clearing" + error.message)
         }
       )
     });
-
-
   }
 
   clearAll(){
@@ -69,7 +115,7 @@ class Queries extends Component{
         `DROP TABLE days`,
         [],
         (txn, results) => {
-          console.log("day table cleared", results);
+          console.log("day table cleared");
           
         },
         error => {
@@ -79,18 +125,20 @@ class Queries extends Component{
     });
     db.transaction(function (txn) {
       txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS days (id VARCHAR(30), date VARCHAR(30))`,
+        `DROP TABLE chores`,
         [],
-        () => {
-          console.log("table created successfully");
+        (txn, results) => {
+          console.log("day table cleared");
+          
         },
         error => {
-          console.log("error on creating table" + error.message)
+          console.log("error on clearing" + error.message)
         }
       )
     });
-  }
+    this.createTables();
 
+  }
   
 }
 const sqlQueries = new Queries;

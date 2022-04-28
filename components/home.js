@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, View, TouchableOpacity, FlatList } from 'react-native';
+import { SafeAreaView, View, Button } from 'react-native';
 import React, { Component } from "react";
 import Year from "../classes/year";
 import styles from "../styles";
+import sqlQueries from "../db/db";
 
 
 
@@ -20,6 +21,7 @@ class Home extends Component{
     <StatusBar style="auto" />
     <View>
     <Year nav={this.props}/>
+    <Button onPress={() => sqlQueries.clearAll()} title="Button"/>
 
     </View>
   </SafeAreaView>

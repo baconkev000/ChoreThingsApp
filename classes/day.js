@@ -27,15 +27,20 @@ class Day extends Component{
   removeChore = () =>{
     
   }
+
+  getChores(){
+    
+  }
   
 
     render(){
+      console.log(this.state.choreList);
       if(this.state.choreList.length == 0){
-        return <NoChores today={this} nav={this.props.nav} dayState={this} />
+        return <NoChores nav={this.props.nav} dayState={this} />
       }else{
         return <View>
             {this.state.choreList}
-            <AddChoresBtn nav={this.props.nav} />
+            <AddChoresBtn nav={this.props.nav} dayState={this}/>
           </View>;
           }
       }
