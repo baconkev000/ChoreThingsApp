@@ -2,6 +2,7 @@ import * as SQLite from "expo-sqlite";
 import { Component } from "react";
 
 const db = SQLite.openDatabase('chores.db', '1.0', '', 1);
+const choreLibrary = ["Do Dishes", ""];
 
 class Queries extends Component{
   createTables(){
@@ -10,7 +11,6 @@ class Queries extends Component{
         `CREATE TABLE IF NOT EXISTS days (id VARCHAR(20) UNIQUE, day VARCHAR(20) UNIQUE)`,
         [],
         () => {
-          console.log("table created successfully");
         },
         error => {
           console.log("error on creating table" + error.message)
@@ -19,16 +19,17 @@ class Queries extends Component{
     });
     db.transaction(function (txn) {
       txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS chores (id VARCHAR(20), name VARCHAR UNIQUE)`,
+        `CREATE TABLE IF NOT EXISTS chores (id VARCHAR(20), name VARCHAR)`,
         [],
         () => {
-          console.log("table created successfully");
         },
         error => {
           console.log("error on creating table" + error.message)
         }
       )
     });
+    
+
   }
 
   addDay(id, date){ // add the day
@@ -39,14 +40,12 @@ class Queries extends Component{
         VALUES (?,?)`,
         [id, date],
         (txn, results) => {
-          console.log("day added successfully", results);
         },
         error => {
           console.log("error on adding day" + error.message)
         }
       )
     });
-    console.log(this.getDays());
 
   }
 
@@ -56,7 +55,7 @@ class Queries extends Component{
     var i = 0;
     chores.forEach(chore => {
       if(i == chores.length-1){
-        vals += " (?,?)";
+        vals += "(?,?)";
       }else{
         vals += " (?,?),";
 
@@ -64,18 +63,18 @@ class Queries extends Component{
       tempList.push(chore[0], chore[1]);
       i++
     });
-    console.log("---------", tempList, vals)
-    vals += " (?,?)";
+
     db.transaction(function (txn) {
       txn.executeSql(
         `INSERT INTO chores (id, name)
-        VALUES ${vals}`,
+        VALUES ` + vals ,
         tempList,
         (txn, results) => {
-          console.log("day added successfully", results);
+          return true;
         },
         error => {
           console.log("error on adding chores" + error.message);
+          return false;
         }
       )
     });
@@ -85,7 +84,6 @@ class Queries extends Component{
         `SELECT * FROM chores`,
         [],
         (txn, results) => {
-          console.log("day added successfully");
         },
         error => {
           console.log("error selection chores" + error.message);
@@ -93,17 +91,75 @@ class Queries extends Component{
       )
     });
   }
+
   getDays(){
+    return new Promise((resolve) => 
+    { 
+      db.transaction(function (txn) {
+        txn.executeSql(
+          `SELECt * FROM days`,
+          [],
+          (txn, results) => {
+            let row = results.rows;
+            resolve(row)
+            return row;
+          },
+          error => {
+          console.log("error on chores tabel" + error.message)
+          }
+        )
+      })
+    })
+  }
+
+getChores(){
+    return new Promise((resolve) => 
+    { 
+      db.transaction(function (txn) {
+        txn.executeSql(
+          `SELECt * FROM chores`,
+          [],
+          (txn, results) => {
+            let row = results.rows;
+            resolve(row)
+            return row;
+          },
+          error => {
+          console.log("error on chores tabel" + error.message)
+          }
+        )
+      })
+    })
+  }
+  deleteChore(choreName){
+    console.log("deleted", choreName);
+
     db.transaction(function (txn) {
       txn.executeSql(
-        `SELECt * FROM days`,
-        [],
+        `DELETE FROM chores WHERE name = ?`,
+      [choreName],
         (txn, results) => {
-          console.log("day table cleared", results);
-          return results;
+          return true;
         },
         error => {
-          console.log("error on clearing" + error.message)
+          console.log("error on adding chores" + error.message);
+          return false;
+        }
+      )
+    });
+  }
+
+  updateChoreName(newChoreName, oldChoreName){
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `UPDATE chores SET name = ? WHERE name = ?`,
+      [newChoreName, oldChoreName],
+        (txn, results) => {
+          return true;
+        },
+        error => {
+          console.log("error on adding chores" + error.message);
+          return false;
         }
       )
     });
@@ -114,9 +170,7 @@ class Queries extends Component{
       txn.executeSql(
         `DROP TABLE days`,
         [],
-        (txn, results) => {
-          console.log("day table cleared");
-          
+        (txn, results) => {          
         },
         error => {
           console.log("error on clearing" + error.message)
@@ -128,7 +182,6 @@ class Queries extends Component{
         `DROP TABLE chores`,
         [],
         (txn, results) => {
-          console.log("day table cleared");
           
         },
         error => {

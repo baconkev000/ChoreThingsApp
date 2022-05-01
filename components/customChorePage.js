@@ -4,7 +4,8 @@ import {View, TextInput, TouchableWithoutFeedback, Text, Button } from "react-na
 import styles from "../styles";
 import Chore from "../classes/chore";
 import sqlQueries from "../db/db";
-
+import ChoreAlert from "./alerts";
+import { ChoresContext } from "../context/choreContext";
 class CustomChore extends Component{
   constructor(props) {
     super(props);
@@ -27,24 +28,28 @@ class CustomChore extends Component{
         />
       ),
       headerRight: () => (
-        <Button
-          onPress={() => this.dataToDB()
-          }
-          title="Save"
-          color="#fff"
-        />
-      ),
+          <Button
+            onPress={ () => this.dataToDB()}
+            title="Save"
+            color="#fff"
+          />      ),
     })
   }
 
   dataToDB(){
-    sqlQueries.addDay(this.state.dayState.dayId, this.state.dayState.state.date);
-    sqlQueries.addChores(this.state.choreList)
-    this.state.dayState.addChore(this.state.newChore);
+
+    sqlQueries.addDay(this.state.dayState.props.id, this.state.dayState.state.date);
+    var choresAdded = sqlQueries.addChores(this.state.choreList)
     this.clearChores();
     this.props.navigation.navigate("ChoresOptionsPage");
 
+    if(choresAdded){
+      console.log("failed");
+    }else{
+      console.log("success");
+    }
   }
+
 
   clearChores(){
     this.setState({
@@ -53,33 +58,54 @@ class CustomChore extends Component{
       addButtonContainerStyle: styles.AddInput,
       inputBoxStyle: styles.Hidden,
       inputText: null,
-      placeholder: "Edit name",
+      placeholder: "Add a new chore",
       choreShowingList: [],
     });
     this.props.navigation.navigate("ChoresOptionsPage");
 
   }
+
+  async getChoresAsync(){
+    let row = await sqlQueries.getChores();
+    return row._array;
+  }
+
+  loadChores(props){
+    this.getChoresAsync()
+    .then(row => ChoreAlert.isValidNameDB(row, props.nativeEvent))
+    .then(isValid => this.finishAddName(props, isValid));
+  }
   
-  finishAddName(props){
-    var newChore = <Chore choreName={props.nativeEvent.text} dayId={this.state.dayState.dayId} key={props.nativeEvent.text}/>;
-    var tempList = this.state.choreList;
-    var tempShowingList = this.state.choreShowingList;
-    tempList.push(this.state.dayState.state.id, props.nativeEvent.text);
-    tempShowingList.push(newChore);
-
-
-    this.setState({
-      choreList: tempList,
-      choreName: props.nativeEvent.text,
-      addButtonContainerStyle: styles.AddInput,
-      inputBoxStyle: styles.Hidden,
-      inputText: null,
-      placeholder: "Edit name",
-      choreShowingList: tempShowingList,
-      newChore: newChore,
-    });
+    finishAddName(props, isValid){
+      var created = ChoreAlert.isCreated(this.state.choreList,props.nativeEvent.text);
+    if(isValid && !created){
+      var newChore = <Chore choreName={props.nativeEvent.text} dayId={this.state.dayState.props.id} nav={this.props.navigation} inDB={false} key={props.nativeEvent.text}/>;
+      var tempList = this.state.choreList;
+      var tempShowingList = this.state.choreShowingList;
+      tempList.push([this.state.dayState.state.id, props.nativeEvent.text]);
+      tempShowingList.push(newChore);
+  
+  
+      this.setState({
+        choreList: tempList,
+        choreName: props.nativeEvent.text,
+        addButtonContainerStyle: styles.AddInput,
+        inputBoxStyle: styles.Hidden,
+        inputText: null,
+        placeholder: "Edit name",
+        choreShowingList: tempShowingList,
+        newChore: newChore,
+      });
+      }else{
+        this.setState({ 
+          addButtonContainerStyle: styles.AddInput,
+          inputBoxStyle: styles.Hidden,
+          inputText: null,
+          placeholder: "Edit name",
+        });
+      }
     }
-
+   
     updateText(value){
       this.setState({
         inputText: value,
@@ -87,11 +113,8 @@ class CustomChore extends Component{
     }
 
     render(){
-      console.log(this.state.dayState);
-
   return (
-    <View>
-    <TouchableWithoutFeedback >
+    <View style={styles.ChoreInputContainer}>
       <View style={styles.ChoreContainer}>
           <TextInput 
           value = {this.state.inputText}
@@ -99,13 +122,12 @@ class CustomChore extends Component{
           onSubmitEditing={({
             nativeEvent: { text },
           }) =>
-            this.finishAddName({ nativeEvent: { text } })}
+          this.loadChores({ nativeEvent: { text } })}
           style={styles.TextInput} 
           placeholder={this.state.placeholder}></TextInput>
       </View>
-      </TouchableWithoutFeedback>
       <View>{this.state.choreShowingList}</View>
-<Button onPress={() => sqlQueries.getDays()} title="Button"/>
+      <Button onPress={() => sqlQueries.getDays()} title="Button"/>
     </View>
   );
     }

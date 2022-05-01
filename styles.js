@@ -5,7 +5,6 @@ const secondaryColor = "#FFDEC9";
 const terinaryColor = "#EAEAEA";
 const linkColor = "#0645AD";
 
-
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
@@ -33,15 +32,27 @@ const styles = StyleSheet.create({
       },*/
       YearContainer:{
         marginLeft: "5%",
-        width:"100%",
+        width:"90%",
+      },
+      HomeContainer:{
+        display:"flex",
+        flexDirection: "column",
+        justifyContent:"center",
+        alignItems:"center",
       },
 
       // ------------------ Date Iterator -----------------------
+      ChoreDayContainer:{
+        flexDirection: "column",
+        marginTop: 20
+      },
+      ChoreListContainer: {
+        height:"80%",
+      },
       DateContainer: {
         display: "flex",
         flexDirection: "row",
         backgroundColor: terinaryColor,
-        width: "90%",
         marginTop: "5%",
         justifyContent: "space-between",
         alignItems: "center",
@@ -64,7 +75,6 @@ const styles = StyleSheet.create({
 
       // ------------------ No Chores Page -----------------------
       NoChoresContainer:{
-        width: "90%",
         padding: 20,
         backgroundColor: secondaryColor,
         justifyContent: "center",
@@ -141,7 +151,6 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         backgroundColor: primaryColor,
-        width: "90%",
         marginTop: "5%",
         justifyContent: "space-between",
         alignItems: "center",
@@ -150,6 +159,40 @@ const styles = StyleSheet.create({
         fontSize: 20,
         padding: 20,
       },
+      SwipeLeft:{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#05BB59",
+        width: "100%",
+        marginTop: "5%",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingLeft: 10,
+
+      },
+      SwipeRight:{
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#F96A61",
+        width: "100%",
+        marginTop: "5%",
+        justifyContent:"flex-end",
+        alignItems: "center",
+        paddingRight: 10,
+      },
+      SwipeText:{
+        color:"white",
+        fontSize: 20,
+        fontWeight: "bold",
+      },
+      ChoreInputContainer:{
+        marginTop: "5%",
+        marginLeft: "5%",
+        width: "100%",
+      },
+
+      //----------------------- Edit Chore Page --------------------------\
+      
 })
 
 

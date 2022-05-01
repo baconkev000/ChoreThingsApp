@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import Year from "../classes/year";
 import styles from "../styles";
 import sqlQueries from "../db/db";
+import { ChoresContext } from "../context/choreContext";
 
 
 
@@ -15,14 +16,13 @@ class Home extends Component{
     };
   }
 
+
     render(){
   return (
     <SafeAreaView styles={styles.Container}>
     <StatusBar style="auto" />
-    <View>
-    <Year nav={this.props}/>
-    <Button onPress={() => sqlQueries.clearAll()} title="Button"/>
-
+    <View styels={styles.HomeContainer}>
+      <Year nav={this.props}/>
     </View>
   </SafeAreaView>
     

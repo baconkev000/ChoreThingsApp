@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import ChoresOptionsPage from './components/choresOptionsPage';
 import ChoreLibrary from './components/choreLibrary';
 import CustomChore from './components/customChorePage';
+import EditChorePage from './components/editChorePage';
 
 const Stack = createStackNavigator();
 
@@ -77,6 +78,21 @@ export default function App() {
           headerBackTitle: "Cancel",
         })}
       />
+      <Stack.Screen
+        name="EditChorePage"
+        component={EditChorePage}
+        options={({navigation}) => ({
+          headerTitle: "Edit Chore",
+          headerBackTitle: "Cancel",
+            headerLeft: () => (
+                <Button
+                  onPress={() => navigation.goBack()}
+                  title="Cancel"
+                  color="#fff"
+                />
+              ),
+        })}
+      />
 
     </Stack.Navigator>
   </NavigationContainer>
@@ -101,3 +117,4 @@ function Title() {
 // npm install @reduxjs/toolkit react-redux
 // npm install react-native-sqlite-2 --save
 // expo install expo-sqlite
+// expo install react-native-gesture-handler

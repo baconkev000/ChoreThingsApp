@@ -19,12 +19,15 @@ class AddChoresBtn extends Component{
   }
     render(){
   return (
-      <TouchableWithoutFeedback style={styles.NoChoresTextContainer} onPress={() => this.props.nav.navigation.navigate("ChoresOptionsPage",{params: this.props.dayState}) }>
+    <View>      
+    
+      <TouchableWithoutFeedback onPress={() => this.props.nav.navigation.navigate("ChoresOptionsPage",{params: this.props.dayState}) }>
         <Text style={styles.NoChoresButton}> 
-          <AntDesign name="pluscircleo" size={20} style={styles.AddCircle} /> 
           Add a chore
         </Text>
       </TouchableWithoutFeedback>
+      <Button onPress={() => sqlQueries.clearAll()} title="Button"/>
+      </View>
     
   );
     }
