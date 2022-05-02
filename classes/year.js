@@ -34,7 +34,7 @@ class Year extends Component{
         dayList: tempList,
       })
 
-      sqlQueries.createTables();
+      sqlQueries.createTables();      
   }
   
   addDay = (day) => {

@@ -6,6 +6,8 @@ import Chore from "../classes/chore";
 import sqlQueries from "../db/db";
 import ChoreAlert from "./alerts";
 import { ChoresContext } from "../context/choreContext";
+import { DbContext } from "../db/dbProvider";
+
 class CustomChore extends Component{
   constructor(props) {
     super(props);
@@ -19,30 +21,37 @@ class CustomChore extends Component{
     };
   }
   componentDidMount(){
+    var globalChoresList = this.context;
     this.props.navigation.setOptions({
       headerLeft: () => (
-        <Button
-          onPress={() => this.clearChores()}
-          title="Cancel"
-          color="#fff"
-        />
+        
+          <Button
+            onPress={() => this.clearChores()}
+            title="Cancel"
+            color="#fff"
+          />
+
       ),
       headerRight: () => (
+        <DbContext.Consumer>{(db) =>(
           <Button
-            onPress={ () => this.dataToDB()}
+            onPress={ () => this.dataToDB(db)}
             title="Save"
             color="#fff"
-          />      ),
+          />          )}
+          </DbContext.Consumer>
+              ),
     })
+
   }
 
-  dataToDB(){
-
+  dataToDB(db){
     sqlQueries.addDay(this.state.dayState.props.id, this.state.dayState.state.date);
     var choresAdded = sqlQueries.addChores(this.state.choreList)
     this.clearChores();
     this.props.navigation.navigate("ChoresOptionsPage");
-
+    console.log(db);
+    db.updateChoreList(choresAdded, 1);
     if(choresAdded){
       console.log("failed");
     }else{
@@ -115,20 +124,21 @@ class CustomChore extends Component{
     render(){
   return (
     <View style={styles.ChoreInputContainer}>
-      <View style={styles.ChoreContainer}>
-          <TextInput 
-          value = {this.state.inputText}
-          onChangeText = {(value) => this.updateText(value)}
-          onSubmitEditing={({
-            nativeEvent: { text },
-          }) =>
-          this.loadChores({ nativeEvent: { text } })}
-          style={styles.TextInput} 
-          placeholder={this.state.placeholder}></TextInput>
-      </View>
-      <View>{this.state.choreShowingList}</View>
-      <Button onPress={() => sqlQueries.getDays()} title="Button"/>
+    <View style={styles.ChoreContainer}>
+        <TextInput 
+        value = {this.state.inputText}
+        onChangeText = {(value) => this.updateText(value)}
+        onSubmitEditing={({
+          nativeEvent: { text },
+        }) =>
+        this.loadChores({ nativeEvent: { text } })}
+        style={styles.TextInput} 
+        placeholder={this.state.placeholder}></TextInput>
     </View>
+    <View>{this.state.choreShowingList}</View>
+    <Button onPress={() => sqlQueries.getDays()} title="Button"/>
+  </View>
+    
   );
     }
 }

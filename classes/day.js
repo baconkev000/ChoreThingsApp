@@ -11,22 +11,17 @@ import { DbContext } from "../db/dbProvider";
 
 class Day extends Component{
   static contextType = DbContext;
-
   constructor(props) {
     super(props);
     this.state = {
         choreList: props.choreList,
         date: props.date,
         id: props.id,
-        db: [],
     };
   }
   componentDidMount(){
     this.getChoresAsync()
     .then(row => this.setChoresList(row));
-
-    const db = this.context;
-    console.log(db);
   }
 
 
@@ -56,21 +51,36 @@ class Day extends Component{
       choreList: tempList,
     })
   }
-  
 
     render(){
-      console.log(this.state.db);
-      if(this.state.choreList.length == 0){
-        return <NoChores nav={this.props.nav} dayState={this} />
-      }else{
-        return <View style={styles.ChoreDayContainer}>
-          <View style={styles.ChoreListContainer}>
-          {this.state.choreList}</View>
+      const db = this.context;
+        return ( 
+        <DbContext.Consumer>
+          {db => db.db.length == 0
+          ? <NoChores nav={this.props.nav} dayState={this} />
+          : ( 
+          <View style={styles.ChoreDayContainer}>
+            <View style={styles.ChoreListContainer}>
+            {db.db}
+            </View>
             <AddChoresBtn nav={this.props.nav} dayState={this}/>
-          </View>;
+          </View>)
           }
+          
+        </DbContext.Consumer>
+        );
       }
 
 }
 Day.contextType = ChoresContext;
 export default Day;
+
+/*? <NoChores nav={this.props.nav} dayState={this} />
+          :  db => ( 
+          <View style={styles.ChoreDayContainer}>
+            <View style={styles.ChoreListContainer}>
+            {db}{this.tes(db)}
+            </View>
+            <AddChoresBtn nav={this.props.nav} dayState={this}/>
+          </View>)
+          } */
