@@ -1,8 +1,10 @@
-import * as SQLite from "expo-sqlite";
-import { Component } from "react";
 
-const db = SQLite.openDatabase('chores.db', '1.0', '', 1);
+import { Component } from "react";
+import * as SQLite from "expo-sqlite";
+
 const choreLibrary = ["Do Dishes", ""];
+const db = SQLite.openDatabase('chores.db', '1.0', '', 1);
+
 
 class Queries extends Component{
   createTables(){

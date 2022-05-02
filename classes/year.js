@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Day from "./day";
 import sqlQueries from "../db/db";
+import { DbContext } from "../db/dbProvider";
 
 var month= ["January","February","March","April","May","June","July",
             "August","September","October","November","December"];
@@ -109,6 +110,8 @@ class Year extends Component{
 
 
     render(){
+
+      
   return <View style={styles.YearContainer}> 
     <View style={styles.DateContainer}>
       <TouchableWithoutFeedback style={styles.TouchButton} onPress={() => this.dateIterator(-1)}><AntDesign name="caretleft" size={24} color="black" /></TouchableWithoutFeedback>

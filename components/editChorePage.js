@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, Button } from 'react-native';
 import ChoreAlert from './alerts';
-import Chore from '../classes/chore';
 import sqlQueries from '../db/db';
 
 import styles from '../styles';

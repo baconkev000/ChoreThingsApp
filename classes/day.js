@@ -6,19 +6,27 @@ import sqlQueries from "../db/db";
 import Chore from "./chore";
 import { ChoresContext } from "../context/choreContext";
 import styles from "../styles";
+import { DbContext } from "../db/dbProvider";
+
 
 class Day extends Component{
+  static contextType = DbContext;
+
   constructor(props) {
     super(props);
     this.state = {
         choreList: props.choreList,
         date: props.date,
         id: props.id,
+        db: [],
     };
   }
   componentDidMount(){
     this.getChoresAsync()
     .then(row => this.setChoresList(row));
+
+    const db = this.context;
+    console.log(db);
   }
 
 
@@ -51,7 +59,7 @@ class Day extends Component{
   
 
     render(){
-      let chore = this.context;
+      console.log(this.state.db);
       if(this.state.choreList.length == 0){
         return <NoChores nav={this.props.nav} dayState={this} />
       }else{

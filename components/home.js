@@ -3,9 +3,7 @@ import { SafeAreaView, View, Button } from 'react-native';
 import React, { Component } from "react";
 import Year from "../classes/year";
 import styles from "../styles";
-import sqlQueries from "../db/db";
-import { ChoresContext } from "../context/choreContext";
-
+import DbProvider from "../db/dbProvider";
 
 
 class Home extends Component{
@@ -15,15 +13,19 @@ class Home extends Component{
       
     };
   }
+  componentDidMount(){
 
+  }
 
     render(){
   return (
     <SafeAreaView styles={styles.Container}>
     <StatusBar style="auto" />
+    <DbProvider>
     <View styels={styles.HomeContainer}>
       <Year nav={this.props}/>
     </View>
+    </DbProvider>
   </SafeAreaView>
     
   );

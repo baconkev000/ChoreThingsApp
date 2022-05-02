@@ -2,9 +2,7 @@
 import React, { Component} from "react";
 import {View, Text, TouchableWithoutFeedback, Button } from "react-native";
 import styles from "../styles";
-import { AntDesign } from '@expo/vector-icons';
 import { LogBox } from 'react-native';
-import ChoresOptionsPage from "./choresOptionsPage";
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
