@@ -4,7 +4,7 @@ import Chore from '../classes/chore';
 
 const DbContext = React.createContext("DEFAULT");
 
-export default class DbProvider extends Component {
+class DbProvider extends Component {
     constructor(props){
       super(props);
       this.state = {

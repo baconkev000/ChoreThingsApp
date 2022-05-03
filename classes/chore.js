@@ -38,10 +38,11 @@ class Chore extends Component{
   deleteChore = (inDB) =>{
     if(inDB){
       sqlQueries.deleteChore(this.state.name);
+      console.log("TEST")
       this.props.removeChoreFunc(this.state.name);
     }else{
-      this.props.removeCustomChoreFunc(this.state.name)
-    }
+      this.props.removeCustomChoreFunc(this.state.name);
+    };
   }
 
   setChore = (newName) =>{

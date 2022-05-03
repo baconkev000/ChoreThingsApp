@@ -5,8 +5,7 @@ import styles from "../styles";
 import Chore from "../classes/chore";
 import sqlQueries from "../db/db";
 import ChoreAlert from "./alerts";
-import { DbContext } from "../db/dbProvider";
-import DbProvider from "../db/dbProvider";
+import { DbContext, DbProvider } from "../db/dbProvider";
 
 class CustomChore extends Component{
   constructor(props) {
@@ -75,10 +74,12 @@ class CustomChore extends Component{
   }
 
   removeCustomChoreFunc = (choreName) => {
-    for(var i = 0; i < this.state.choreList.length; i++){ 
+    for(var i = 0; i < this.state.choreShowingList.length; i++){ 
         if(this.state.choreShowingList[i].props.choreName == choreName){ // if chore being removed is i in state choreList
           var tempList = this.state.choreShowingList; // remove and update state choreList
+          var tempShowingList = this.state.choreList;
           tempList.splice(i, 1);
+          tempShowingList.splice(i, 1);
           this.setState({
             choreShowingList: tempList,
           });
@@ -155,4 +156,6 @@ class CustomChore extends Component{
   );
     }
 }
+CustomChore.contextType = DbContext;
+
 export default CustomChore;

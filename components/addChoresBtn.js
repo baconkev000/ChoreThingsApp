@@ -24,7 +24,6 @@ class AddChoresBtn extends Component{
           Add a chore
         </Text>
       </TouchableWithoutFeedback>
-      <Button onPress={() => sqlQueries.clearAll()} title="Button"/>
       </View>
     
   );

@@ -154,34 +154,6 @@ getChores(){
       )
     });
   }
-
-  clearAll(){
-    db.transaction(function (txn) {
-      txn.executeSql(
-        `DROP TABLE days`,
-        [],
-        (txn, results) => {          
-        },
-        error => {
-          console.log("error on clearing" + error.message)
-        }
-      )
-    });
-    db.transaction(function (txn) {
-      txn.executeSql(
-        `DROP TABLE chores`,
-        [],
-        (txn, results) => {
-          
-        },
-        error => {
-          console.log("error on clearing" + error.message)
-        }
-      )
-    });
-    this.createTables();
-
-  }
   
 }
 const sqlQueries = new Queries;

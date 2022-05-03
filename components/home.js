@@ -3,6 +3,7 @@ import { SafeAreaView, View } from 'react-native';
 import React, { Component } from "react";
 import Year from "../classes/year";
 import styles from "../styles";
+import { DbProvider } from "../db/dbProvider";
 
 
 class Home extends Component{
@@ -18,9 +19,10 @@ class Home extends Component{
   return (
     <SafeAreaView styles={styles.Container}>
     <StatusBar style="auto" />
+    <DbProvider>
     <View styels={styles.HomeContainer}>
       <Year nav={this.props}/>
-    </View>
+    </View></DbProvider>
   </SafeAreaView>
     
   );
