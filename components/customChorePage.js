@@ -5,8 +5,8 @@ import styles from "../styles";
 import Chore from "../classes/chore";
 import sqlQueries from "../db/db";
 import ChoreAlert from "./alerts";
-import { ChoresContext } from "../context/choreContext";
 import { DbContext } from "../db/dbProvider";
+import DbProvider from "../db/dbProvider";
 
 class CustomChore extends Component{
   constructor(props) {
@@ -21,7 +21,6 @@ class CustomChore extends Component{
     };
   }
   componentDidMount(){
-    var globalChoresList = this.context;
     this.props.navigation.setOptions({
       headerLeft: () => (
         
@@ -33,13 +32,14 @@ class CustomChore extends Component{
 
       ),
       headerRight: () => (
+        <DbProvider>
         <DbContext.Consumer>{(db) =>(
           <Button
             onPress={ () => this.dataToDB(db)}
             title="Save"
             color="#fff"
           />          )}
-          </DbContext.Consumer>
+          </DbContext.Consumer></DbProvider>
               ),
     })
 
@@ -47,15 +47,15 @@ class CustomChore extends Component{
 
   dataToDB(db){
     sqlQueries.addDay(this.state.dayState.props.id, this.state.dayState.state.date);
-    var choresAdded = sqlQueries.addChores(this.state.choreList)
+    var choresAdded = sqlQueries.addChores(this.state.choreList);
     this.clearChores();
     this.props.navigation.navigate("ChoresOptionsPage");
-    console.log(db);
-    db.updateChoreList(choresAdded, 1);
+    //this.state.dayState.updateChores(choresAdded, 1);
     if(choresAdded){
       console.log("failed");
     }else{
       console.log("success");
+      db.update(this.state.choreShowingList, 1);
     }
   }
 
@@ -74,10 +74,23 @@ class CustomChore extends Component{
 
   }
 
+  removeCustomChoreFunc = (choreName) => {
+    for(var i = 0; i < this.state.choreList.length; i++){ 
+        if(this.state.choreShowingList[i].props.choreName == choreName){ // if chore being removed is i in state choreList
+          var tempList = this.state.choreShowingList; // remove and update state choreList
+          tempList.splice(i, 1);
+          this.setState({
+            choreShowingList: tempList,
+          });
+          break;
+        }
+    }
+}
+
   async getChoresAsync(){
     let row = await sqlQueries.getChores();
     return row._array;
-  }
+  } 
 
   loadChores(props){
     this.getChoresAsync()
@@ -88,7 +101,7 @@ class CustomChore extends Component{
     finishAddName(props, isValid){
       var created = ChoreAlert.isCreated(this.state.choreList,props.nativeEvent.text);
     if(isValid && !created){
-      var newChore = <Chore choreName={props.nativeEvent.text} dayId={this.state.dayState.props.id} nav={this.props.navigation} inDB={false} key={props.nativeEvent.text}/>;
+      var newChore = <Chore choreName={props.nativeEvent.text} dayId={this.state.dayState.props.id} nav={this.props.navigation} inDB={false} removeCustomChoreFunc={this.removeCustomChoreFunc} key={props.nativeEvent.text}/>;
       var tempList = this.state.choreList;
       var tempShowingList = this.state.choreShowingList;
       tempList.push([this.state.dayState.state.id, props.nativeEvent.text]);
@@ -122,6 +135,7 @@ class CustomChore extends Component{
     }
 
     render(){
+      console.log(this.state.choreShowingList)
   return (
     <View style={styles.ChoreInputContainer}>
     <View style={styles.ChoreContainer}>
@@ -136,7 +150,6 @@ class CustomChore extends Component{
         placeholder={this.state.placeholder}></TextInput>
     </View>
     <View>{this.state.choreShowingList}</View>
-    <Button onPress={() => sqlQueries.getDays()} title="Button"/>
   </View>
     
   );

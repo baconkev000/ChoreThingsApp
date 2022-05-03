@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
       ChoreInputContainer:{
         marginTop: "5%",
         marginLeft: "5%",
-        width: "100%",
+        width: "90%",
       },
 
       //----------------------- Edit Chore Page --------------------------\

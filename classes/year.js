@@ -110,7 +110,6 @@ class Year extends Component{
 
 
     render(){
-
       
   return <View style={styles.YearContainer}> 
     <View style={styles.DateContainer}>

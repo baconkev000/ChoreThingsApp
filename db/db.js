@@ -66,8 +66,8 @@ class Queries extends Component{
       i++
     });
 
-    db.transaction(function (txn) {
-      txn.executeSql(
+     db.transaction(function (txn) {
+       txn.executeSql(
         `INSERT INTO chores (id, name)
         VALUES ` + vals ,
         tempList,
@@ -77,18 +77,6 @@ class Queries extends Component{
         error => {
           console.log("error on adding chores" + error.message);
           return false;
-        }
-      )
-    });
-
-    db.transaction(function (txn) {
-      txn.executeSql(
-        `SELECT * FROM chores`,
-        [],
-        (txn, results) => {
-        },
-        error => {
-          console.log("error selection chores" + error.message);
         }
       )
     });

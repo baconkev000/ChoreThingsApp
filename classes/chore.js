@@ -17,6 +17,9 @@ class Chore extends Component{
     };
     
   }
+
+  componentDidMount(){
+  }
   renderLeftActions = () => {
     return (
       <View style={styles.SwipeLeft}>
@@ -32,8 +35,13 @@ class Chore extends Component{
     );
   }
 
-  deleteChore = () =>{
-    sqlQueries.deleteChore(this.state.name);
+  deleteChore = (inDB) =>{
+    if(inDB){
+      sqlQueries.deleteChore(this.state.name);
+      this.props.removeChoreFunc(this.state.name);
+    }else{
+      this.props.removeCustomChoreFunc(this.state.name)
+    }
   }
 
   setChore = (newName) =>{
@@ -52,8 +60,8 @@ class Chore extends Component{
         <Swipeable 
         renderLeftActions={this.renderLeftActions}
         renderRightActions={this.renderRightActions}
-        onSwipeableLeftOpen={this.deleteChore}
-        onSwipeableRightOpen={this.deleteChore}
+        onSwipeableLeftOpen={() => this.deleteChore(true)}
+        onSwipeableRightOpen={() => this.deleteChore(true)}
         >
           <TouchableWithoutFeedback onPress={() => this.props.nav.navigate("EditChorePage", {name: this.state.name})}>
           <View style={styles.ChoreNameContainer}>
@@ -65,7 +73,7 @@ class Chore extends Component{
         return (
           <Swipeable 
           renderRightActions={this.renderRightActions}
-          onSwipeableRightOpen={this.deleteChore}
+          onSwipeableRightOpen={() => this.deleteChore(false)}
           >
             <TouchableWithoutFeedback onPress={() => this.props.nav.navigate("EditChorePage", {name: this.state.name, inDB: false})}>
             <View style={styles.ChoreNameContainer}>

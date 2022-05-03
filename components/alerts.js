@@ -31,8 +31,9 @@ class ChoreAlerts extends Component{
     }
 
     isCreatedDB(arr, identifyer){
+      console.log("ids",arr, identifyer);
         for(var i = 0; i < arr.length; i++){
-          if(arr[i].name == identifyer){
+          if(arr[i].name == identifyer.text){
             Alert.alert(
                 "Invalid Name",
                 "Chore has already been created for this day.",

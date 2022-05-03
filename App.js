@@ -39,13 +39,7 @@ export default function App() {
         options={({navigation}) => ({
           headerBackTitle: "Cancel",
           headerTitle: "Add Chores",
-          headerLeft: () => (
-            <Button
-              onPress={() => navigation.navigate({name: 'Home'})}
-              title="Cancel"
-              color="#fff"
-            />
-          ),
+          
           })}
           />
       <Stack.Screen

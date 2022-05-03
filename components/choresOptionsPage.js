@@ -1,6 +1,6 @@
 
 import React, { Component} from "react";
-import { View, TouchableWithoutFeedback, Text } from "react-native";
+import { View, TouchableWithoutFeedback, Text, Button } from "react-native";
 import styles from "../styles";
 import { AntDesign } from '@expo/vector-icons';
 
@@ -13,7 +13,17 @@ class ChoresOptionsPage extends Component{
     };
   }
 
-
+componentDidMount(){
+  this.props.navigation.setOptions({
+    headerLeft: () => (
+          <Button
+        onPress={() => (this.props.navigation.navigate({name: 'Home'}))}
+        title="Cancel"
+        color="#fff"
+      />      
+    ),
+  })
+}
 
     render(){
   return (
