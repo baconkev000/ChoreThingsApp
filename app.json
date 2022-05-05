@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "choreThingsApp",
-    "slug": "choreThingsApp",
+    "name": "TinyTaksTuesday",
+    "slug": "TinyTaksTuesday",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/tt_logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/tt_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -9,7 +9,7 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
 
-class AddChoresBtn extends Component{
+class AddTasksBtn extends Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -19,9 +19,9 @@ class AddChoresBtn extends Component{
     render(){
   return (
     <View>      
-      <TouchableWithoutFeedback onPress={() => this.props.nav.navigation.navigate("ChoresOptionsPage",{params: this.props.dayState}) }>
-        <Text style={styles.NoChoresButton}> 
-          Add a chore
+      <TouchableWithoutFeedback onPress={() => this.props.nav.navigation.navigate("TasksOptionsPage",{params: this.props.dayState}) }>
+        <Text style={styles.NoTasksButton}> 
+          Add a task
         </Text>
       </TouchableWithoutFeedback>
       </View>
@@ -30,4 +30,4 @@ class AddChoresBtn extends Component{
     }
 }
 
-export default AddChoresBtn;
+export default AddTasksBtn;

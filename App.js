@@ -2,12 +2,12 @@ import { View, Text, Button } from 'react-native';
 import styles from './styles';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from './components/home';
+import Home from './classes/home';
 import 'react-native-gesture-handler';
-import ChoresOptionsPage from './components/choresOptionsPage';
-import ChoreLibrary from './components/choreLibrary';
-import CustomChore from './components/customChorePage';
-import EditChorePage from './components/editChorePage';
+import TasksOptionsPage from './components/taskOptionsPage';
+import TaskLibrary from './components/taskLibrary';
+import CustomTask from './components/customTaskPage';
+import EditTaskPage from './components/editTaskPage';
 
 const Stack = createStackNavigator();
 
@@ -34,22 +34,22 @@ export default function App() {
         }}
       />
       <Stack.Screen
-        name="ChoresOptionsPage"
-        component={ChoresOptionsPage}
+        name="TasksOptionsPage"
+        component={TasksOptionsPage}
         options={({navigation}) => ({
           headerBackTitle: "Cancel",
-          headerTitle: "Add Chores",
+          headerTitle: "Add Tasks",
           
           })}
           />
       <Stack.Screen
-        name="ChoreLibrary"
-        component={ChoreLibrary}
+        name="TaskLibrary"
+        component={TaskLibrary}
         options={({navigation}) => ({
-          headerTitle: "Chore Library",
+          headerTitle: "Task Library",
           headerLeft: () => (
             <Button
-              onPress={() => navigation.navigate({name: 'ChoresOptionsPage'})}
+              onPress={() => navigation.navigate({name: 'TasksOptionsPage'})}
               title="Cancel"
               color="#fff"
             />
@@ -65,18 +65,18 @@ export default function App() {
           })}
       />
             <Stack.Screen
-        name="CustomChore"
-        component={CustomChore}
+        name="CustomTask"
+        component={CustomTask}
         options={({navigation}) => ({
-          headerTitle: "Custom Chores",
+          headerTitle: "Custom Tasks",
           headerBackTitle: "Cancel",
         })}
       />
       <Stack.Screen
-        name="EditChorePage"
-        component={EditChorePage}
+        name="EditTaskPage"
+        component={EditTaskPage}
         options={({navigation}) => ({
-          headerTitle: "Edit Chore",
+          headerTitle: "Edit Task",
           headerBackTitle: "Cancel",
             headerLeft: () => (
                 <Button
@@ -97,7 +97,7 @@ export default function App() {
 function Title() {
   return (
     <View style={styles.HeaderContainer}>
-      <Text style={styles.TitleColor}>Chore Things</Text>
+      <Text style={styles.TitleColor}>Tiny Task Tuesday</Text>
     </View>
   );
 }

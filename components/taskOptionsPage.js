@@ -4,7 +4,7 @@ import { View, TouchableWithoutFeedback, Text, Button } from "react-native";
 import styles from "../styles";
 import { AntDesign } from '@expo/vector-icons';
 
-class ChoresOptionsPage extends Component{
+class TasksOptionsPage extends Component{
   
   constructor(props) {
     super(props);
@@ -28,18 +28,18 @@ componentDidMount(){
     render(){
   return (
     <View>
-  <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ChoreLibrary",{dayState: this.state.dayState})}>
+  <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("TaskLibrary",{dayState: this.state.dayState})}>
   <View style={styles.OptionTile}>
-  <Text style={styles.TextSize}>Chore Library </Text><AntDesign name="right" size={24} color="black" />
+  <Text style={styles.TextSize}>Task Library </Text><AntDesign name="right" size={24} color="black" />
   </View>
 </TouchableWithoutFeedback>
-<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("CustomChore",{dayState: this.state.dayState})}>
+<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("CustomTask",{dayState: this.state.dayState})}>
   <View style={styles.OptionTile}>
-  <Text style={styles.TextSize}>Custom Chore</Text><AntDesign name="right" size={24} color="black" />
+  <Text style={styles.TextSize}>Custom Task</Text><AntDesign name="right" size={24} color="black" />
   </View>
 </TouchableWithoutFeedback>
 </View>
 );
     }
 }
-export default ChoresOptionsPage;
+export default TasksOptionsPage;

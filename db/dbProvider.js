@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import sqlQueries from './db';
-import Chore from '../classes/chore';
+import Task from '../classes/task';
 
 const DbContext = React.createContext("DEFAULT");
 
@@ -8,30 +8,28 @@ class DbProvider extends Component {
     constructor(props){
       super(props);
       this.state = {
-        choreList: [],
+        taskList: [],
       }
     }
     componentDidMount(){
-      sqlQueries.getChores().then(row => this.setChoresList(row));
+      sqlQueries.getTasks().then(row => this.setTasksList(row)); 
     }
 
-    updateChoreList = (choresAdded, offset) => {
-      console.log("K");
-
-      if(offset == 1){ // if adding chores
-        var tempList = this.state.choreList;
-        tempList.push(choresAdded);
+    updateTaskList = (tasksAdded, offset) => {
+      if(offset == 1){ // if adding tasks
+        var tempList = this.state.taskList;
+        tempList.push(tasksAdded);
         this.setState({
-          choreList: tempList,
+          taskList: tempList,
         })
-      }else if(offset == -1){ // if removing a chore
-        for(var i = 0; i < this.state.choreList.length; i++){ 
-          for(var j = 0; j < choresAdded.length; j++){ 
-            if(this.state.choreList[i].state.name == choresAdded[i].state.name){ // if chore being removed is i in state choreList
-              var tempList = this.state.choreList; // remove and update state choreList
+      }else if(offset == -1){ // if removing a task
+        for(var i = 0; i < this.state.taskList.length; i++){ 
+          for(var j = 0; j < tasksAdded.length; j++){ 
+            if(this.state.taskList[i].state.name == tasksAdded[i].state.name){ // if task being removed is i in state taskList
+              var tempList = this.state.taskList; // remove and update state taskList
               tempList.splice(i, 1);
               this.setState({
-                choreList: tempList,
+                taskList: tempList,
               });
               break;
             }
@@ -40,20 +38,20 @@ class DbProvider extends Component {
         }
     }
 
-    setChoresList(row){
+    setTasksList(row){
       var tempList = [];
       for(var i = 0; i < row._array.length; i++){
-          tempList.push(<Chore choreName={row._array[i].name} dayId={row._array[i].id} nav={this.props} inDB={true} key={row._array[i].name}/>);
+          tempList.push(<Task taskName={row._array[i].name} dayId={row._array[i].id} nav={this.props} inDB={true} key={row._array[i].name}/>);
       }
   
       this.setState({
-        choreList: tempList,
+        taskList: tempList,
       })
     }
 
     render () {
       return (
-        <DbContext.Provider value={{choreList: this.state.choreList, update: this.updateChoreList}}>
+        <DbContext.Provider value={{taskList: this.state.taskList, update: this.updateTaskList}}>
           {this.props.children}
         </DbContext.Provider>
       )

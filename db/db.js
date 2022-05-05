@@ -2,8 +2,8 @@
 import { Component } from "react";
 import * as SQLite from "expo-sqlite";
 
-const choreLibrary = ["Do Dishes", ""];
-const db = SQLite.openDatabase('chores.db', '1.0', '', 1);
+const taskLibrary = ["Clean kitchen", "Wipe off counters", "Wash dishes","Take out trash","Sweep floor","Mop floor", "Clean fridge","Clean room", "Wash/Dry laundry", "Fold clothes", "Make bed", "Feed dog/s", "Feed fish", "Feed cat/s", "Feed lizard/s", "Vacuum" ];
+const db = SQLite.openDatabase('tasks.db', '1.0', '', 1);
 
 
 class Queries extends Component{
@@ -21,7 +21,7 @@ class Queries extends Component{
     });
     db.transaction(function (txn) {
       txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS chores (id VARCHAR(20), name VARCHAR)`,
+        `CREATE TABLE IF NOT EXISTS tasks (id VARCHAR(20), name VARCHAR)`,
         [],
         () => {
         },
@@ -30,8 +30,110 @@ class Queries extends Component{
         }
       )
     });
-    
 
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS taskLibrary (name VARCHAR UNIQUE)`,
+        taskLibrary,
+        () => {
+        },
+        error => {
+          console.log("error on creating table" + error.message)
+        }
+      )
+    });
+
+    var vals = "";
+    var i = 0;
+    taskLibrary.forEach(task => {
+      if(i == taskLibrary.length-1){
+        vals += "(?)";
+      }else{
+        vals += "(?), ";
+
+      }
+      i++
+    });
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `INSERT INTO taskLibrary VALUES` + vals,
+        taskLibrary,
+        (tx, row) => {
+        },
+        error => {
+          console.log("error on inserting table" + error.message)
+        }
+      )
+    });
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `SELECT * FROM taskLibrary`,
+        [],
+        (txn, results) => {
+          let row = results.rows;
+          return row;
+        },
+        error => {
+        console.log("error on tasks table" + error.message)
+        }
+      )
+    })
+  }
+
+  addUser(username, password){
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `INSERT INTO users
+         Values (?,?)`,
+        [username, password],
+        () => {
+        },
+        error => {
+          console.log("error on creating table" + error.message)
+        }
+      )
+    });
+  }
+
+  getTaskLibrary(){
+    return new Promise((resolve) => 
+    { 
+      db.transaction(function (txn) {
+        txn.executeSql(
+          `SELECT name FROM taskLibrary`,
+          [],
+          (txn, results) => {
+            let row = results.rows;
+            resolve(row)
+            return row;
+          },
+          error => {
+          console.log("error on tasks tabel" + error.message)
+          }
+        )
+      })
+    })
+  }
+
+  getUsers(){
+    return new Promise((resolve) => 
+    { 
+      db.transaction(function (txn) {
+        txn.executeSql(
+          `SELECT * FROM users`,
+          [],
+          (txn, results) => {
+            let row = results.rows;
+            console.log("ajfakjkfld",results.rowsAffected);
+            resolve(row)
+            return row;
+          },
+          error => {
+          console.log("error on tasks tabel" + error.message)
+          }
+        )
+      })
+    })
   }
 
   addDay(id, date){ // add the day
@@ -51,31 +153,31 @@ class Queries extends Component{
 
   }
 
-  addChores(chores){
+  addTasks(tasks){
     var vals = "";
     var tempList = [];
     var i = 0;
-    chores.forEach(chore => {
-      if(i == chores.length-1){
+    tasks.forEach(task => {
+      if(i == tasks.length-1){
         vals += "(?,?)";
       }else{
         vals += " (?,?),";
 
       }
-      tempList.push(chore[0], chore[1]);
+      tempList.push(task[0], task[1]);
       i++
     });
 
      db.transaction(function (txn) {
        txn.executeSql(
-        `INSERT INTO chores (id, name)
+        `INSERT INTO tasks (id, name)
         VALUES ` + vals ,
         tempList,
         (txn, results) => {
           return true;
         },
         error => {
-          console.log("error on adding chores" + error.message);
+          console.log("error on adding tasks" + error.message);
           return false;
         }
       )
@@ -95,19 +197,19 @@ class Queries extends Component{
             return row;
           },
           error => {
-          console.log("error on chores tabel" + error.message)
+          console.log("error on tasks tabel" + error.message)
           }
         )
       })
     })
   }
 
-getChores(){
+getTasks(){
     return new Promise((resolve) => 
     { 
       db.transaction(function (txn) {
         txn.executeSql(
-          `SELECt * FROM chores`,
+          `SELECt * FROM tasks`,
           [],
           (txn, results) => {
             let row = results.rows;
@@ -115,43 +217,90 @@ getChores(){
             return row;
           },
           error => {
-          console.log("error on chores tabel" + error.message)
+          console.log("error on tasks tabel" + error.message)
           }
         )
       })
     })
   }
-  deleteChore(choreName){
-    console.log("deleted", choreName);
-
+  deleteTask(taskName, id){
     db.transaction(function (txn) {
       txn.executeSql(
-        `DELETE FROM chores WHERE name = ?`,
-      [choreName],
+        `DELETE FROM tasks WHERE (id = ? AND name = ?)`,
+      [id, taskName],
         (txn, results) => {
           return true;
         },
         error => {
-          console.log("error on adding chores" + error.message);
+          console.log("error on adding tasks" + error.message);
           return false;
         }
       )
     });
   }
 
-  updateChoreName(newChoreName, oldChoreName){
+  updateTaskName(newTaskName, oldTaskName){
     db.transaction(function (txn) {
       txn.executeSql(
-        `UPDATE chores SET name = ? WHERE name = ?`,
-      [newChoreName, oldChoreName],
+        `UPDATE tasks SET name = ? WHERE name = ?`,
+      [newTaskName, oldTaskName],
         (txn, results) => {
           return true;
         },
         error => {
-          console.log("error on adding chores" + error.message);
+          console.log("error on adding tasks" + error.message);
           return false;
         }
       )
+    });
+  }
+
+  clear(){
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `DROP TABLE days`,
+        [],
+        () => {
+        },
+        error => {
+          console.log("error on creating table" + error.message)
+        }
+      )
+    });
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `DROP TABLE tasks`,
+        [],
+        () => {
+        },
+        error => {
+          console.log("error on creating table" + error.message)
+        }
+      )
+    });
+
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `DROP TABLE taskLibrary`,
+        taskLibrary,
+        () => {
+        },
+        error => {
+          console.log("error on creating table" + error.message)
+        }
+      )
+    });
+
+    var vals = "";
+    var i = 0;
+    taskLibrary.forEach(task => {
+      if(i == taskLibrary.length-1){
+        vals += "(?)";
+      }else{
+        vals += "(?), ";
+
+      }
+      i++
     });
   }
   

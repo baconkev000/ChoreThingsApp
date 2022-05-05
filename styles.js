@@ -2,13 +2,14 @@ import { StyleSheet } from "react-native"
 
 const primaryColor = "#FFA06A";
 const secondaryColor = "#FFDEC9";
-const terinaryColor = "#EAEAEA";
-const linkColor = "#0645AD";
+const terinaryColor = "#D8D8D8";
+const linkColor = "#3973CB";
+const backgroundColor = "white";
 
 const styles = StyleSheet.create({
     Container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: backgroundColor,
         alignItems: 'center',
         justifyContent: 'center',
       },
@@ -24,15 +25,10 @@ const styles = StyleSheet.create({
       Hidden: {
         display: "none",
       },
-      /*MainContainer:{
-        backgroundColor: "red",
-        alignItems: 'stretch',
-        alignContent: "center",
-        justifyContent: 'center',
-      },*/
       YearContainer:{
         marginLeft: "5%",
         width:"90%",
+
       },
       HomeContainer:{
         display:"flex",
@@ -40,22 +36,26 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
       },
+      TinyLogo:{
+        width: 150,
+        height: 150,
+      },
 
       // ------------------ Date Iterator -----------------------
-      ChoreDayContainer:{
+      TaskDayContainer:{
         flexDirection: "column",
-        marginTop: 20
+        marginTop: 20,
       },
-      ChoreListContainer: {
-        height:"80%",
+      TaskListContainer: {
+        height:"85%",
       },
       DateContainer: {
         display: "flex",
         flexDirection: "row",
-        backgroundColor: terinaryColor,
         marginTop: "5%",
         justifyContent: "space-between",
         alignItems: "center",
+
       },
       DateTextContainer:{
         display: "flex",
@@ -67,45 +67,49 @@ const styles = StyleSheet.create({
         fontSize: 20,
       },
       ToTodayText:{
-
+        opacity: 0,
+      },
+      ToTodayTextColor:{
+        opacity: 100,
+        color: primaryColor,
       },
       TouchButton:{
         padding:20,
       },
 
-      // ------------------ No Chores Page -----------------------
-      NoChoresContainer:{
+      // ------------------ No Tasks Page -----------------------
+      NoTasksContainer:{
         padding: 20,
         backgroundColor: secondaryColor,
         justifyContent: "center",
         alignItems:"center",
-        marginTop: 40,
+        marginTop: 20,
       },
       LogoPH:{
         justifyContent: "center",
         alignItems:"center",
         padding: 20,
-        backgroundColor: primaryColor,
       },
-      NoChoresTextContainer:{
+      NoTasksTextContainer:{
         width: "80%",
         padding: 10,
       },
-      NoChoresText:{
+      NoTasksText:{
         fontSize: 20,
         textAlign: "center",
       },
-      NoChoresButton:{
+      NoTasksButton:{
         fontSize: 20,
         textAlign: "center",
-        color: linkColor,
         paddingTop:10,
+        color: linkColor,
       },
+      
       AddCircle:{
         color: linkColor,
       },
 
-      // ------------------ Add Chores Page -----------------------
+      // ------------------ Add Tasks Page -----------------------
       OptionTile:{
         width: "100%",
         display: "flex",
@@ -116,10 +120,13 @@ const styles = StyleSheet.create({
         borderBottomColor: terinaryColor,
         padding: 10,
       },
-      ChoreContainer: {
+      TaskContainer: {
         width: "100%",
         padding: 7,
         margin: 5,
+        borderWidth: 2,
+        borderColor: terinaryColor,
+
       },
       InputBox: {
         display: "flex",
@@ -146,8 +153,8 @@ const styles = StyleSheet.create({
 
       },
 
-      //----------------------- Chore --------------------------\
-      ChoreNameContainer:{
+      //----------------------- Task --------------------------\
+      TaskNameContainer:{
         display: "flex",
         flexDirection: "row",
         backgroundColor: primaryColor,
@@ -155,8 +162,12 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
       },
-      ChoreNameText:{
+      TaskNameText:{
         fontSize: 20,
+        padding: 20,
+      },
+      TaskNameTextEdit:{
+        fontSize: 15,
         padding: 20,
       },
       SwipeLeft:{
@@ -185,14 +196,61 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
       },
-      ChoreInputContainer:{
+      TaskInputContainer:{
         marginTop: "5%",
         marginLeft: "5%",
         width: "90%",
       },
 
-      //----------------------- Edit Chore Page --------------------------\
-      
+      //----------------------- Edit Task Page --------------------------\
+      EditNameText:{
+        fontSize: 20,
+        padding: 5,
+      },
+
+      //----------------------- Task Library Page --------------------------\
+      TaskLibraryContainer:{
+        padding: 15,
+        borderBottomColor: terinaryColor,
+        borderBottomWidth: .5,
+      },
+      TaskLibraryText:{
+        fontSize: 20,
+        padding: 5,
+      },
+      TaskLibraryIcon:{
+        fontSize: 20,
+        padding: 5,
+        color: primaryColor,
+      },
+
+      //----------------------- Login Page --------------------------\
+      LoginPageContainer:{
+        backgroundColor: primaryColor,
+        flex: 1,
+        flexDirection: "column",
+        paddingTop: "50%",
+        width: "100%",
+      },
+      LoginInputContainer:{
+        marginLeft: "5%",
+        width: "90%",
+        padding: 10,
+      },
+      LoginContainer: {
+        width: "100%",
+        padding: 10,
+        backgroundColor: "white",
+      },
+  
+      LoginText:{
+        fontSize: 20,
+        paddingBottom: 10,
+      },
+      LoginInputText:{
+        fontSize: 15,
+      },
+
 })
 
 
