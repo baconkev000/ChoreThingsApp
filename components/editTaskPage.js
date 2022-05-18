@@ -67,8 +67,14 @@ class EditTaskPage extends Component{
   }
 
   async getTasksAsync(){
+    try{
     let row = await sqlQueries.getTasks();
     return row._array;
+
+  }catch (err) {
+    alert(error.message);
+    return [];
+  }
   } 
 
   loadTasks(props){

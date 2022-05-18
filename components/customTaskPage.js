@@ -17,6 +17,7 @@ class CustomTask extends Component{
         dayState: this.props.route.params.dayState.params,
         taskShowingList: [],
         taskList: [],
+        toLibraryList: [],
     };
   }
   componentDidMount(){ // creating the headers for this page
@@ -24,7 +25,7 @@ class CustomTask extends Component{
       headerLeft: () => (
         
           <Button
-            onPress={() => this.clearTasks()} // this simply clears the page data and goes to previous page
+            onPress={() => this.clearTasks(false)} // this simply clears the page data and goes to previous page
             title="Cancel"
             color="#fff"
           />
@@ -47,12 +48,13 @@ class CustomTask extends Component{
   dataToDB(db){
     sqlQueries.addDay(this.state.dayState.props.id, this.state.dayState.state.date);
     sqlQueries.addTasks(this.state.taskList);
+    sqlQueries.addToTaskLibrary(this.state.toLibraryList);
     db.update(this.state.taskShowingList, 1);
-    this.clearTasks();
+    this.clearTasks(true);
   }
 
 
-  clearTasks(){
+  clearTasks(isSaved){
     this.setState({
       taskList: [],
       taskName: null,
@@ -62,7 +64,12 @@ class CustomTask extends Component{
       placeholder: "Add a new task",
       taskShowingList: [],
     });
+
+    if(isSaved){
+      this.props.navigation.navigate("Home");
+    }else{
     this.props.navigation.navigate("TasksOptionsPage");
+    }
 
   }
 
@@ -71,7 +78,7 @@ class CustomTask extends Component{
     var tempList = this.state.taskList;
     for(var i = 0; i < this.state.taskShowingList.length; i++){
       if(this.state.taskShowingList[i].props.taskName == oldName){
-        tempShowingList = <Task taskName={newName} dayId={this.state.dayState.props.id} nav={this.props.navigation} inDB={false} removeCustomTaskFunc={this.removeCustomTaskFunc} updateCustom={this.updateCustomTaskName} key={newName}/>;
+        tempShowingList[i] = <Task taskName={newName} dayId={this.state.dayState.props.id} updateLibraryList={this.updateLibraryList} nav={this.props.navigation} inDB={false} removeCustomTaskFunc={this.removeCustomTaskFunc} updateCustom={this.updateCustomTaskName} key={newName}/>;
         tempList[i] = [this.state.dayState.props.id, newName];
         this.setState({
           taskList: tempList,
@@ -96,9 +103,36 @@ class CustomTask extends Component{
     }
 }
 
+  updateLibraryList = (action, name) => {
+    if(action == -1){
+      var tempList = this.state.toLibraryList;
+      for(var i = 0; i < this.state.toLibraryList; i ++){
+        if(this.state.toLibraryList[i] == name){
+          tempList.splice(i, 1);
+        }
+      }
+      this.setState({
+        toLibraryList: tempList,
+      })
+    }{
+      var tempList = this.state.toLibraryList;
+      tempList.push(name);
+      this.setState({
+        toLibraryList: tempList,
+      })
+    }
+    
+  }
+
   async getTasksAsync(){
+    try {
     let row = await sqlQueries.getTasks();
     return row._array;
+
+    }catch (err) {
+      alert(error.message);
+      return [];
+    }
   } 
 
   loadTasks(props){
@@ -110,7 +144,7 @@ class CustomTask extends Component{
     finishAddName(props, isValid){ // does validation checks and if they pass it adds the task to the page
       var created = TaskAlert.isCreated(this.state.taskList,props.nativeEvent.text, this.state.dayState.state.id);
     if(isValid && !created){
-      var newTask = <Task taskName={props.nativeEvent.text} dayId={this.state.dayState.props.id} nav={this.props.navigation} inDB={false} removeCustomTaskFunc={this.removeCustomTaskFunc} updateCustom={this.updateCustomTaskName} key={props.nativeEvent.text}/>;
+      var newTask = <Task taskName={props.nativeEvent.text} dayId={this.state.dayState.props.id} updateLibraryList={this.updateLibraryList} nav={this.props.navigation} inDB={false} removeCustomTaskFunc={this.removeCustomTaskFunc} updateCustom={this.updateCustomTaskName} key={props.nativeEvent.text}/>;
       var tempList = this.state.taskList;
       var tempShowingList = this.state.taskShowingList;
       tempList.push([this.state.dayState.state.id, props.nativeEvent.text]);
@@ -122,7 +156,7 @@ class CustomTask extends Component{
         addButtonContainerStyle: styles.AddInput,
         inputBoxStyle: styles.Hidden,
         inputText: null,
-        placeholder: "Add a new task",
+        placeholder: "Add another task",
         taskShowingList: tempShowingList,
         newTask: newTask,
       });
@@ -154,7 +188,7 @@ class CustomTask extends Component{
           nativeEvent: { text },
         }) =>
         this.loadTasks({ nativeEvent: { text } })}
-        style={styles.TextInput} 
+        style={styles.CustomTextInput} 
         placeholder={this.state.placeholder}></TextInput>
     </View>
     <View>{this.state.taskShowingList}</View>

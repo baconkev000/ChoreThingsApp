@@ -12,13 +12,14 @@ const styles = StyleSheet.create({
         backgroundColor: backgroundColor,
         alignItems: 'center',
         justifyContent: 'center',
+
       },
       HeaderContainer: {
         flex: 1,
       },
       TitleColor: {
         color: "white",
-        fontSize: 36,
+        fontSize: 25,
         fontWeight: "bold",
         backgroundColor: primaryColor,
       },
@@ -35,10 +36,16 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent:"center",
         alignItems:"center",
+        width: "100%",
+        height: "100%",
       },
       TinyLogo:{
         width: 150,
         height: 150,
+      },
+      ConfettiContainer:{
+        width:"100%",
+        height:"100%",
       },
 
       // ------------------ Date Iterator -----------------------
@@ -75,6 +82,10 @@ const styles = StyleSheet.create({
       },
       TouchButton:{
         padding:20,
+      },
+      AddToLibraryText:{
+        fontSize: 15,
+        paddingTop: 10,
       },
 
       // ------------------ No Tasks Page -----------------------
@@ -118,10 +129,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderBottomWidth: 2,
         borderBottomColor: terinaryColor,
-        padding: 10,
+        padding: 20,
       },
       TaskContainer: {
         width: "100%",
+        flexDirection: "row",
         padding: 7,
         margin: 5,
         borderWidth: 2,
@@ -143,6 +155,15 @@ const styles = StyleSheet.create({
       },
       TextInput:{
         fontSize: 20,
+        
+      },
+      CustomTextInput:{
+        fontSize: 20,
+        padding: 10,
+      },
+      TextInputSearch:{
+        fontSize: 20,
+        padding: 10,
       },
       NameText:{
         fontSize: 20,
@@ -214,13 +235,17 @@ const styles = StyleSheet.create({
         borderBottomColor: terinaryColor,
         borderBottomWidth: .5,
       },
+      TaskLibraryContentContainer:{
+        flexDirection: "row",
+        alignItems: "center",
+      },
       TaskLibraryText:{
         fontSize: 20,
         padding: 5,
       },
       TaskLibraryIcon:{
-        fontSize: 20,
-        padding: 5,
+        fontSize: 25,
+        paddingRight: 5,
         color: primaryColor,
       },
 
@@ -242,6 +267,72 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: "white",
       },
+      SlideContainer: {
+        flex: 1,
+        width: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: 'center',
+        backgroundColor: primaryColor,
+        color:"white",
+        padding: 30,
+      },
+
+      SlideContentContainer:{
+        flex: .8,
+        width:"100%",
+        backgroundColor: "white",
+        alignItems: "center",
+        marginTop: 40,
+      },
+      SlideAsset:{
+        borderWidth: 2,
+        borderColor: "white",
+        padding: 10,
+        marginTop: 40,
+        marginBottom: 40,
+      },
+      SlideLogo:{
+        width: 150,
+        height: 150,
+      },
+      SlideImage:{
+        width: 300,
+        height: 400,
+        
+      },
+      SlideSubTitle:{
+        fontSize: 25,
+        color: "white",
+        textAlign: "center",
+      },
+      SlideTitle:{
+        fontSize: 40,
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+      },
+      SlideText:{
+        fontSize: 20,
+        color: "white",
+        textAlign: "center",
+      },
+      SlideNoTasksContainer:{
+        padding: 50,
+        width: "100%",
+        backgroundColor: secondaryColor,
+        justifyContent: "center",
+        alignItems:"center",
+        marginTop: 20,
+      },
+      SlideTaskOptionsContainer:{
+        width: "100%",
+      },
+      SlideOptionsContainer: {
+        width:"100%",
+      },
+
+      //----------------------- Modal  --------------------------\
   
       LoginText:{
         fontSize: 20,
@@ -249,6 +340,61 @@ const styles = StyleSheet.create({
       },
       LoginInputText:{
         fontSize: 15,
+      },
+
+      ModalView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      ModalContainer: {
+        margin: 20,
+        backgroundColor: "white",
+        width:"80%",
+        height: "18%",
+        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      ShareButton: {
+        margin:10,
+        padding: 10,
+        width: "90%",
+        elevation: 2
+      },
+      ShareButtonClose: {
+        backgroundColor: "#2196F3",
+      },
+      ShareButtonText: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+        fontSize: 20,
+      },
+      ModalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontSize: 20,
+      },
+
+      //----------------------- Modal  --------------------------\
+
+      ButtonCircle: {
+        width: 40,
+        height: 40,
+        backgroundColor: 'rgba(0, 0, 0, .2)',
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
       },
 
 })

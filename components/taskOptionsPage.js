@@ -3,6 +3,8 @@ import React, { Component} from "react";
 import { View, TouchableWithoutFeedback, Text, Button } from "react-native";
 import styles from "../styles";
 import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 class TasksOptionsPage extends Component{
   
@@ -30,12 +32,12 @@ componentDidMount(){
     <View>
   <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("TaskLibrary",{dayState: this.state.dayState})}>
   <View style={styles.OptionTile}>
-  <Text style={styles.TextSize}>Task Library </Text><AntDesign name="right" size={24} color="black" />
+  <Text style={styles.TextSize}><MaterialCommunityIcons name="bookshelf" style={styles.TextSize} /> Task Library </Text><AntDesign name="right" size={24} color="black" />
   </View>
 </TouchableWithoutFeedback>
 <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("CustomTask",{dayState: this.state.dayState})}>
   <View style={styles.OptionTile}>
-  <Text style={styles.TextSize}>Custom Task</Text><AntDesign name="right" size={24} color="black" />
+  <Text style={styles.TextSize}><Entypo name="pencil" style={styles.TextSize} /> Custom Task</Text><AntDesign name="right" size={24} color="black" />
   </View>
 </TouchableWithoutFeedback>
 </View>

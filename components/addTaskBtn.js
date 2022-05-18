@@ -1,9 +1,9 @@
 
 import React, { Component} from "react";
-import {View, Text, TouchableWithoutFeedback, Button } from "react-native";
+import {View, Text, TouchableWithoutFeedback } from "react-native";
 import styles from "../styles";
 import { LogBox } from 'react-native';
-import sqlQueries from "../db/db";
+import { Feather } from '@expo/vector-icons';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -21,6 +21,7 @@ class AddTasksBtn extends Component{
     <View>      
       <TouchableWithoutFeedback onPress={() => this.props.nav.navigation.navigate("TasksOptionsPage",{params: this.props.dayState}) }>
         <Text style={styles.NoTasksButton}> 
+        <Feather name="plus" style={styles.NoTasksButton} />
           Add a task
         </Text>
       </TouchableWithoutFeedback>

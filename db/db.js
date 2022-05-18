@@ -2,11 +2,45 @@
 import { Component } from "react";
 import * as SQLite from "expo-sqlite";
 
-const taskLibrary = ["Clean kitchen", "Wipe off counters", "Wash dishes","Take out trash","Sweep floor","Mop floor", "Clean fridge","Clean room", "Wash/Dry laundry", "Fold clothes", "Make bed", "Feed dog/s", "Feed fish", "Feed cat/s", "Feed lizard/s", "Vacuum" ];
+const taskLibrary = ["Go to work", "Make breakfast",  "Feed dog/s", "Do Homework", "Clean room",, "Wash dishes","Take out trash","Sweep floor","Mop floor","Clean kitchen", "Wash/Dry laundry", "Fold clothes", "Make bed", "Feed fish", "Feed cat/s", "Feed lizard/s", "Vacuum" ];
 const db = SQLite.openDatabase('tasks.db', '1.0', '', 1);
 
 
 class Queries extends Component{
+  isFirstTime(){
+    return new Promise((resolve) => 
+    { 
+      db.transaction(function (txn) {
+        txn.executeSql(
+          `CREATE TABLE IF NOT EXISTS date_n_time (day txt) UNIQUE`,
+          [],
+          (txn, results) => {
+            resolve(results)
+            return false;
+          },
+          error => {
+          console.log("error on tasks tabel" + error.message);
+          return true;
+          }
+        )
+      })
+    })
+  }
+  clearFirstTime(){
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `Drop TABLE date_n_time`,
+        [],
+        () => {
+          return false;
+        },
+        error => {
+          console.log("error on creating table" + error.message)
+          return true;
+        }
+      )
+    });
+  }
   createTables(){
     db.transaction(function (txn) {
       txn.executeSql(
@@ -151,6 +185,34 @@ class Queries extends Component{
       )
     });
 
+  }
+
+  addToTaskLibrary(tasks){
+    var vals = "";
+    var i = 0;
+    tasks.forEach(task => {
+      if(i == tasks.length-1){
+        vals += "(?)";
+      }else{
+        vals += "(?), ";
+
+      }
+      i++
+    });
+
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `INSERT INTO taskLibrary VALUES ` + vals,
+        tasks,
+        (tx, row) => {
+          console.log("finsihed")
+        },
+        error => {
+          console.log(vals, tasks)
+          console.log("error on inserting table" + error.message)
+        }
+      )
+    });
   }
 
   addTasks(tasks){

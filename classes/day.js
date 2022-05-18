@@ -30,15 +30,21 @@ class Day extends Component{
 
 
   async getTasksAsync(){ // an async function to get all tasks from the db
+    try{
     let row = await sqlQueries.getTasks();
     return row;
+
+  }catch (err) {
+    alert(error.message);
+    return [];
+  }
   }
 
   setTasksList(row){ // this takes the row returned from the async function above and creats the tasks components for the page
     var tempList = [];
     for(var i = 0; i < row._array.length; i++){
       if(row._array[i].id == this.state.id){
-        tempList.push(<Task taskName={row._array[i].name} dayId={row._array[i].id} nav={this.props.nav.navigation} inDB={true}  removeTaskFunc={this.removeTask} key={row._array[i].name}/>);
+        tempList.push(<Task confetti={this.props.confetti} taskName={row._array[i].name} dayId={row._array[i].id} nav={this.props.nav.navigation} inDB={true}  removeTaskFunc={this.removeTask} key={row._array[i].name}/>);
       }
     }
     this.setState({

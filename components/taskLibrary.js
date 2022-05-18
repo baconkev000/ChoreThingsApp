@@ -5,7 +5,7 @@ import styles from "../styles";
 import sqlQueries from "../db/db";
 import TaskLibraryOption from "./taskLibraryOption";
 import { DbProvider, DbContext } from "../db/dbProvider";
-import TaskAlert from "./alerts";
+import { AntDesign } from '@expo/vector-icons';
 
 
 class TaskLibrary extends Component{
@@ -26,7 +26,7 @@ class TaskLibrary extends Component{
       headerLeft: () => (
         
           <Button
-            onPress={() => this.clearTasks()} // this simply clears the page data and goes to previous page
+            onPress={() => this.clearTasks(false)} // this simply clears the page data and goes to previous page
             title="Cancel"
             color="#fff"
           />
@@ -49,11 +49,11 @@ class TaskLibrary extends Component{
     sqlQueries.addDay(this.state.dayState.props.id, this.state.dayState.state.date);
     sqlQueries.addTasks(this.state.tasksSelected);
     db.update(this.state.taskShowingList, 1);
-    this.clearTasks();
+    this.clearTasks(true);
 
   }
 
-  clearTasks(){
+  clearTasks(isSaved){
     this.setState({
       taskList: [],
       inputBoxStyle: styles.Hidden,
@@ -62,8 +62,12 @@ class TaskLibrary extends Component{
       showingList: [],
       tasksSelected: [],
     });
-    this.props.navigation.navigate("TasksOptionsPage");
 
+    if(isSaved){
+      this.props.navigation.navigate("Home");
+    }else{
+      this.props.navigation.navigate("TasksOptionsPage");
+    }
   }
   searchTaskLibrary(){
     console.log("searching...")
@@ -86,8 +90,14 @@ class TaskLibrary extends Component{
   }
 
   async getTasksAsync(){
+    try{
     let row = await sqlQueries.getTaskLibrary().then(row => this.namesToTasks(row._array));
     return row._array;
+
+  }catch (err) {
+    alert(error.message);
+    return [];
+  }
   }
 
   updateText(value){ // filters the selectable information
@@ -142,6 +152,7 @@ class TaskLibrary extends Component{
     <ScrollView>
     <View style={styles.TaskInputContainer}>
     <View style={styles.TaskContainer}>
+    <AntDesign name="search1" style={styles.TextInputSearch}/>
     <TextInput 
         value = {this.state.inputText}
         onChangeText = {(value) => this.updateText(value)}

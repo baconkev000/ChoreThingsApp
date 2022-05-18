@@ -18,7 +18,7 @@ class Year extends Component{
         dayNum: new Date().getDate(),
         month: new Date().getMonth(),
         year: new Date().getFullYear(),
-        dayShowing:<Day id={date[0]} date={date[1]} taskList={[]} nav={this.props.nav} key={date[0]}/>,
+        dayShowing:<Day id={date[0]} date={date[1]} taskList={[]} confetti={this.props.confetti} nav={this.props.nav} key={date[0]}/>,
         todayId: date[0],
         todayLinkStyle: styles.ToTodayText,
         offset: 0,
@@ -73,7 +73,7 @@ class Year extends Component{
 
   dateIterator(offset){ // changes the date and the day object that is showing
     var newDate = this.formatDate(offset);
-    var newDay = <Day id={newDate[0]} date={newDate[1]} taskList={[]} nav={this.props.nav} key={newDate[0]}/>;
+    var newDay = <Day id={newDate[0]} date={newDate[1]} taskList={[]} nav={this.props.nav} confetti={this.props.confetti} key={newDate[0]}/>;
     var oldDay = this.state.dayShowing;
     this.addDay(newDay);
 

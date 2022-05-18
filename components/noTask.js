@@ -1,7 +1,6 @@
 import React, { Component} from "react";
 import {View, Text, Image } from "react-native";
 import styles from "../styles";
-import { AntDesign } from '@expo/vector-icons';
 import AddTasksBtn from "./addTaskBtn";
 
 
@@ -19,7 +18,7 @@ render(){
       <View style={styles.LogoPH}>
       <Image
           style={styles.TinyLogo}
-          source={require("../assets/tt_logo.png")}
+          source={require("../assets/ttt_logo.png")}
         />
         </View>
       <View style={styles.NoTasksTextContainer}>

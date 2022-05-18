@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { View, Text, Button } from 'react-native';
 import styles from './styles';
 import { createStackNavigator } from "@react-navigation/stack";
@@ -8,11 +9,33 @@ import TasksOptionsPage from './components/taskOptionsPage';
 import TaskLibrary from './components/taskLibrary';
 import CustomTask from './components/customTaskPage';
 import EditTaskPage from './components/editTaskPage';
+import NewUserIntro from './components/intro/newUserIntro';
+import sqlQueries from './db/db';
+import { Component } from 'react';
+import { set } from 'react-native-reanimated';
 
 const Stack = createStackNavigator();
 
 
-export default function App() {
+export default class App extends Component{
+  constructor(){
+    super();
+    this.state = {
+      showRealApp: true,
+    }
+  }
+  showApp = () => {
+    this.setState({showRealApp: true});
+  }
+
+  render(){
+  if(this.state.showRealApp == null){
+    console.log("isnull", this.state.showRealApp);
+    return null;
+  }else if (!this.state.showRealApp) {
+    return <NewUserIntro showAppFunc={this.showApp}/>;
+  } else {
+
   return (
     <NavigationContainer>
     <Stack.Navigator
@@ -26,6 +49,7 @@ export default function App() {
         },
       }}
     >
+
       <Stack.Screen
         name="Home"
         component={Home}
@@ -93,6 +117,8 @@ export default function App() {
   )
     
 }
+}
+}
 
 function Title() {
   return (
@@ -112,3 +138,4 @@ function Title() {
 // npm install react-native-sqlite-2 --save
 // expo install expo-sqlite
 // expo install react-native-gesture-handler
+// npm i react-native-share --save
