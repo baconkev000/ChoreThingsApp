@@ -12,7 +12,7 @@ import EditTaskPage from './components/editTaskPage';
 import NewUserIntro from './components/intro/newUserIntro';
 import sqlQueries from './db/db';
 import { Component } from 'react';
-import { set } from 'react-native-reanimated';
+import Login from './components/intro/login';
 
 const Stack = createStackNavigator();
 
@@ -24,99 +24,119 @@ export default class App extends Component{
       showRealApp: true,
     }
   }
-  showApp = () => {
+  componentDidMount(){
+    //sqlQueries.clearFirstTime();
+    //this.setState({showRealApp: this.getTasksAsync()});
+    //this.getTasksAsync();
+  }
+  
+  async getTasksAsync(){
+    try{
+    let res = await sqlQueries.isFirstTime().then(res => this.what(res));
+    //return res;
+  }catch (err) {
+    alert(error.message);
+    return [];
+  }
+  }
+  what(res){
+    console.log("RES", res);
+    return res;
+  }
+
+   showApp = () => {
     this.setState({showRealApp: true});
   }
 
   render(){
-  if(this.state.showRealApp == null){
-    console.log("isnull", this.state.showRealApp);
-    return null;
-  }else if (!this.state.showRealApp) {
+ if (this.state.showRealApp == false) {
     return <NewUserIntro showAppFunc={this.showApp}/>;
-  } else {
-
-  return (
-    <NavigationContainer>
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#FFA06A"
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
-
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerTitle: (props) => <Title></Title>,
+  } else if(this.state.showRealApp == true) {
+    return (
+      <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#FFA06A"
+          },
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
         }}
-      />
-      <Stack.Screen
-        name="TasksOptionsPage"
-        component={TasksOptionsPage}
-        options={({navigation}) => ({
-          headerBackTitle: "Cancel",
-          headerTitle: "Add Tasks",
-          
-          })}
-          />
-      <Stack.Screen
-        name="TaskLibrary"
-        component={TaskLibrary}
-        options={({navigation}) => ({
-          headerTitle: "Task Library",
-          headerLeft: () => (
-            <Button
-              onPress={() => navigation.navigate({name: 'TasksOptionsPage'})}
-              title="Cancel"
-              color="#fff"
+      >
+        <Stack.Screen
+          name="Login"
+          component={Login}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerTitle: (props) => <Title></Title>,
+          }}
+        />
+        <Stack.Screen
+          name="TasksOptionsPage"
+          component={TasksOptionsPage}
+          options={({navigation}) => ({
+            headerBackTitle: "Cancel",
+            headerTitle: "Add Tasks",
+            
+            })}
             />
-          ),
-          headerRight: () => (
-            <Button
-              onPress={() => navigation.navigate({name: 'Home'})}
-              title="Save"
-              color="#fff"
-            />
-          ),
-          
-          })}
-      />
-            <Stack.Screen
-        name="CustomTask"
-        component={CustomTask}
-        options={({navigation}) => ({
-          headerTitle: "Custom Tasks",
-          headerBackTitle: "Cancel",
-        })}
-      />
-      <Stack.Screen
-        name="EditTaskPage"
-        component={EditTaskPage}
-        options={({navigation}) => ({
-          headerTitle: "Edit Task",
-          headerBackTitle: "Cancel",
+        <Stack.Screen
+          name="TaskLibrary"
+          component={TaskLibrary}
+          options={({navigation}) => ({
+            headerTitle: "Task Library",
             headerLeft: () => (
-                <Button
-                  onPress={() => navigation.goBack()}
-                  title="Cancel"
-                  color="#fff"
-                />
-              ),
-        })}
-      />
+              <Button
+                onPress={() => navigation.navigate({name: 'TasksOptionsPage'})}
+                title="Cancel"
+                color="#fff"
+              />
+            ),
+            headerRight: () => (
+              <Button
+                onPress={() => navigation.navigate({name: 'Home'})}
+                title="Save"
+                color="#fff"
+              />
+            ),
+            
+            })}
+        />
+              <Stack.Screen
+          name="CustomTask"
+          component={CustomTask}
+          options={({navigation}) => ({
+            headerTitle: "Custom Tasks",
+            headerBackTitle: "Cancel",
+          })}
+        />
+        <Stack.Screen
+          name="EditTaskPage"
+          component={EditTaskPage}
+          options={({navigation}) => ({
+            headerTitle: "Edit Task",
+            headerBackTitle: "Cancel",
+              headerLeft: () => (
+                  <Button
+                    onPress={() => navigation.goBack()}
+                    title="Cancel"
+                    color="#fff"
+                  />
+                ),
+          })}
+        />
 
-    </Stack.Navigator>
-  </NavigationContainer>
-  )
-    
-}
+      </Stack.Navigator>
+    </NavigationContainer>
+    )  
+  }else{  
+    return null;
+  }
 }
 }
 

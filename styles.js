@@ -254,18 +254,20 @@ const styles = StyleSheet.create({
         backgroundColor: primaryColor,
         flex: 1,
         flexDirection: "column",
-        paddingTop: "50%",
+        justifyContent: "center",
+        alignItems: "center",
         width: "100%",
       },
       LoginInputContainer:{
-        marginLeft: "5%",
+        padding:15,
         width: "90%",
-        padding: 10,
+        marginBottom: "5%",
+        backgroundColor: "white",
       },
       LoginContainer: {
         width: "100%",
-        padding: 10,
-        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
       },
       SlideContainer: {
         flex: 1,
@@ -276,6 +278,19 @@ const styles = StyleSheet.create({
         backgroundColor: primaryColor,
         color:"white",
         padding: 30,
+      },
+      LoginButtonsContainer:{
+        flexDirection: "row",
+        width:"90%",
+      },
+      LoginButton: {
+        padding: 20,
+        textAlign: "center",
+        width: "45%",
+        backgroundColor: secondaryColor,
+        color: "black",
+        marginTop: "5%",
+        marginRight: "10%",
       },
 
       SlideContentContainer:{

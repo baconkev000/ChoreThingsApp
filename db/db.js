@@ -7,40 +7,51 @@ const db = SQLite.openDatabase('tasks.db', '1.0', '', 1);
 
 
 class Queries extends Component{
+  createUserDB(){
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `CREATE TABLE IF NOT EXISTS users (username VARCHAR(20), password VARCHAR(20))`,
+        [],
+        (txn, results) => {         
+        },
+        error => {
+        console.log("user db is already created " + error.message);
+        }
+      )
+    });
+  }
+  createUser(username, password){
+    db.transaction(function (txn) {
+      txn.executeSql(
+        `INSERT INTO users VALUES (?, ?)`,
+        [username, password],
+        (txn, results) => {         
+        },
+        error => {
+        console.log("user db is already created " + error.message);
+        }
+      )
+    });
+  }
   isFirstTime(){
     return new Promise((resolve) => 
     { 
       db.transaction(function (txn) {
         txn.executeSql(
-          `CREATE TABLE IF NOT EXISTS date_n_time (day txt) UNIQUE`,
+          `CREATE TABLE IF NOT EXISTS date_n_time (day VARCHAR)`,
           [],
           (txn, results) => {
-            resolve(results)
-            return false;
+            console.log("Finally Created", results)
+            resolve(results);
           },
           error => {
-          console.log("error on tasks tabel" + error.message);
-          return true;
+          console.log("Table is already created " + error.message);
           }
         )
-      })
-    })
-  }
-  clearFirstTime(){
-    db.transaction(function (txn) {
-      txn.executeSql(
-        `Drop TABLE date_n_time`,
-        [],
-        () => {
-          return false;
-        },
-        error => {
-          console.log("error on creating table" + error.message)
-          return true;
-        }
-      )
+      });
     });
   }
+
   createTables(){
     db.transaction(function (txn) {
       txn.executeSql(
